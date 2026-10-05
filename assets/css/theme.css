@@ -1,0 +1,1394 @@
+/* ============================================================
+   SIMPOR — THEME v1  (modern web app look)
+   ------------------------------------------------------------
+   Dimuat SESUDAH assets/css/style.css, jadi file ini yang
+   menang kalau ada aturan yang sama specificity.
+
+  File layout/CSS lama TIDAK dihapus — style.css tetap
+   utuh sebagai fallback (aman untuk git checkout).
+
+   Token  : assets/css/theme.css  → blok :root
+   Komponen: Sidebar / Topbar / Stat card / Table / Form / dll
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root {
+    /* ========================================================
+       BRAND — PORSIGAL
+       Warna disampling dari logo.png (1024x1024, 142.228 piksel):
+         merah rgb(252,0,1)    12,5%  ->  aksen merah
+         emas  rgb(254,244,37)   8,8%  ->  aksen emas
+       Merah logo terlalu terang untuk teks & bidang luas,
+       jadi dipakai sebagai AKENT, bukan warna latar.
+       Navigasi memakai biru dongker supaya merahnya tidak
+       mendominasi dan kontras tetap nyaman dibaca.
+       ======================================================== */
+    --brand: #E11D2E;
+    --brand-hover: #BE1623;
+    --brand-soft: #FEF2F3;
+    --brand-ring: rgba(225, 29, 46, 0.12);
+    --gold: #EAB308;
+    --gold-soft: #FEF9E7;
+
+    /* Alias ke token lama (dipakai style.css) */
+    --merah: #E11D2E;
+    --merah-hover: #BE1623;
+    --merah-light: rgba(225, 29, 46, 0.10);
+    --merah-soft: rgba(225, 29, 46, 0.045);
+    --kuning-gading: #FEF9E7;
+    --gading-dark: #EADFAF;
+
+    /* --- Navigasi: biru dongker --- */
+    --nav-bg: #16233D;
+    --nav-bg-deep: #101A2E;
+    --nav-text: #AEBACD;
+    --nav-text-strong: #FFFFFF;
+    --nav-hover: rgba(255, 255, 255, 0.07);
+    --nav-active: rgba(225, 29, 46, 0.18);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --nav-label: #6B7A94;
+
+    /* --- Netral (dingin, senada dengan navigasi) --- */
+    --bg-body: #F1F4F8;
+    --surface: #FFFFFF;
+    --surface-alt: #F7F9FC;
+    --border: #E3E9F0;
+    --border-strong: #CFD8E3;
+
+    /* --- Text --- */
+    --text: #16233D;
+    --text-primary: #16233D;
+    --text-body: #33415C;
+    --text-secondary: #64748B;
+    --text-muted: #64748B;
+    --text-faint: #94A3B8;
+
+    /* --- Semantic --- */
+    --success: #16A34A;
+    --warning: #D97706;
+    --danger: #DC2626;
+    --info: #0EA5E9;
+
+    /* --- Elevation --- */
+    --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+    --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.06);
+    --shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+    --shadow-lg: 0 12px 28px rgba(16, 24, 40, 0.10);
+
+    /* --- Shape --- */
+    --radius: 14px;
+    --radius-sm: 10px;
+    --nav-h: 60px;
+
+    /* --- Bootstrap override --- */
+    --bs-border-color: var(--border);
+    --bs-body-bg: var(--bg-body);
+    --bs-body-color: var(--text-body);
+    --bs-border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+body {
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    line-height: 1.6;
+}
+
+::selection {
+    background: var(--brand-soft);
+    color: var(--brand);
+}
+
+:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D6D9DD;
+    border-radius: 99px;
+    border: 3px solid var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #BFC4CA;
+}
+
+/* ============================================================
+   3. TOPBAR  (navbar merah → putih + aksen brand 3px)
+   ============================================================ */
+.navbar-merah {
+    position: relative;
+    background: var(--nav-bg) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 8px rgba(16, 35, 61, 0.18);
+    height: var(--nav-h);
+    padding: 0 1.25rem !important;
+}
+
+/* Strip merah->emas tipis di atas navbar:signature PORSIGAL */
+.navbar-merah::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand) 0%, #F0596A 40%, var(--gold) 100%);
+}
+
+.navbar-merah .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--nav-text-strong) !important;
+    font-weight: 700;
+    font-size: 0.98rem;
+    letter-spacing: -0.01em;
+}
+
+.navbar-merah .navbar-brand img {
+    height: 32px !important;
+    width: auto;
+    border-radius: 8px;
+    background: #fff;
+    padding: 3px;
+}
+
+.navbar-merah .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--nav-text) !important;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.45rem 0.7rem !important;
+    border-radius: 9px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.navbar-merah .nav-link:hover {
+    background: var(--nav-hover) !important;
+    color: var(--nav-text-strong) !important;
+}
+
+.navbar-merah .nav-link i {
+    font-size: 1.1rem;
+    color: var(--nav-text);
+}
+
+/* Pemisah tipis sebelum blok user di kanan navbar */
+.navbar-merah .navbar-nav {
+    align-items: center;
+    gap: 6px;
+}
+
+/* Ikon hamburger harus gelap sekarang navbar putih */
+.navbar-merah .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+}
+
+.navbar-merah .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dropdown user: header nama + daftar aksi */
+.navbar-merah .dropdown-menu {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 6px;
+    margin-top: 10px;
+    min-width: 210px;
+}
+
+.navbar-merah .dropdown-header {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--text-faint);
+    padding: 8px 12px 4px;
+}
+
+.navbar-merah .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.875rem;
+    color: var(--text-body);
+}
+
+.navbar-merah .dropdown-item:hover {
+    background: var(--surface-alt);
+    color: var(--text);
+}
+
+.navbar-merah .dropdown-item.text-danger {
+    color: #B91C1C;
+}
+
+.navbar-merah .dropdown-item.text-danger:hover {
+    background: #FEF2F2;
+    color: #991B1B;
+}
+
+/* ============================================================
+   4. SIDEBAR  (merah solid → putih, sticky, aktif = rail merah)
+   ============================================================ */
+.sidebar {
+    position: sticky;
+    top: var(--nav-h);
+    align-self: flex-start;
+    height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--nav-bg);
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.02);
+    padding: 14px 10px 28px !important;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.14);
+    border: none;
+    border-radius: 99px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+/* Label grup menu */
+.sidebar .nav-label {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--nav-label);
+    padding: 18px 12px 7px;
+}
+
+.sidebar .nav-link {
+    position: relative;
+    color: var(--nav-text);
+    padding: 10px 12px;
+    margin: 2px 0;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    font-size: 1.05rem;
+    color: var(--nav-text);
+    opacity: 0.75;
+    transition: color 0.15s, opacity 0.15s;
+}
+
+.sidebar .nav-link:hover {
+    background: var(--nav-hover);
+    color: var(--nav-text-strong);
+}
+
+.sidebar .nav-link:hover i {
+    color: var(--nav-text-strong);
+    opacity: 1;
+}
+
+.sidebar .nav-link.active {
+    background: var(--nav-active);
+    color: var(--nav-text-strong);
+    font-weight: 600;
+}
+
+.sidebar .nav-link.active i {
+    color: #FF6B78;
+    opacity: 1;
+}
+
+/* Rail merah 3px di item aktif */
+.sidebar .nav-link::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, var(--brand), var(--gold));
+    transition: height 0.2s ease;
+}
+
+.sidebar .nav-link.active::before {
+    height: 22px;
+}
+
+.sidebar .nav-link .badge {
+    margin-left: auto;
+    font-size: 0.68rem;
+    background: var(--brand) !important;
+    color: #fff !important;
+}
+
+/* ============================================================
+   5. PAGE TITLE  (garis bawah krem → accent bar kiri)
+   ============================================================ */
+.page-title {
+    position: relative;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    padding: 0 0 0 14px;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 22px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--brand), var(--gold));
+}
+
+.page-title i {
+    color: var(--brand);
+}
+
+/* ============================================================
+   6. CONTENT  (kartu putih, hilangkan hover-shadow membesar)
+   ============================================================ */
+.content-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    padding: 22px 24px;
+    transition: none;
+}
+
+.content-wrapper:hover {
+    box-shadow: var(--shadow-xs);
+}
+
+.card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+}
+
+.card-header {
+    border-radius: var(--radius) var(--radius) 0 0 !important;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+}
+
+/* ============================================================
+   7. STAT CARD  (small-box: gradient warna → putih + chip ikon)
+   ============================================================ */
+.small-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.small-box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+/* Warna per varian dipakai untuk chip ikon */
+.small-box.bg-primary {
+    --accent: #4F46E5;
+    --tint: #EEF2FF;
+}
+
+.small-box.bg-success {
+    --accent: #059669;
+    --tint: #ECFDF5;
+}
+
+.small-box.bg-warning {
+    --accent: #D97706;
+    --tint: #FFFBEB;
+}
+
+.small-box.bg-info {
+    --accent: #0891B2;
+    --tint: #ECFEFF;
+}
+
+.small-box.bg-danger {
+    --accent: #DC2626;
+    --tint: #FEF2F2;
+}
+
+.small-box.bg-secondary {
+    --accent: #64748B;
+    --tint: #F8FAFC;
+}
+
+.small-box.bg-merah {
+    --accent: var(--brand);
+    --tint: var(--brand-soft);
+}
+
+.small-box .inner {
+    padding: 0;
+    color: var(--text) !important;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.small-box .inner h3 {
+    color: var(--text);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 2px;
+}
+
+.small-box .inner p {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin: 0;
+    opacity: 1;
+}
+
+/* Ikon pindah ke kanan, jadi chip berwarna lembut */
+.small-box .icon {
+    position: static;
+    order: 2;
+    margin: 0;
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    opacity: 1;
+    color: var(--accent, var(--brand));
+    background: var(--tint, var(--brand-soft));
+    transition: transform 0.25s;
+}
+
+.small-box:hover .icon {
+    transform: scale(1.07);
+    font-size: 1.2rem;
+    opacity: 1;
+}
+
+/* ============================================================
+   8. TABEL  (krem → netral)
+   ============================================================ */
+.table {
+    --bs-border-color: var(--border);
+    font-size: 0.85rem;
+}
+
+.table thead th {
+    background: var(--nav-bg);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 11px 14px;
+    border: none;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+/* Kolom aksi & nomor rata kanan */
+.table th.text-end,
+.table td.text-end {
+    text-align: right;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.table tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    border-color: var(--border);
+}
+
+.table tbody tr:nth-child(even) {
+    background: var(--surface-alt);
+}
+
+.table tbody tr:hover {
+    background: var(--brand-soft);
+}
+
+.table-bordered {
+    --bs-border-color: var(--border);
+    border-color: var(--border);
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    overflow: visible;
+}
+
+.table tbody:empty::after {
+    color: var(--text-faint);
+    padding: 48px 20px;
+}
+
+/* ============================================================
+   9. BUTTON
+   ============================================================ */
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 9px 18px;
+    transition: background 0.18s, color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-sm {
+    padding: 6px 11px;
+    font-size: 0.78rem;
+    border-radius: 8px;
+}
+
+/* Tombol ikon di kolom Aksi -> hampir persegi */
+.table .btn.btn-sm:has(> i:only-child) {
+    padding: 6px 10px;
+}
+
+/* Tombol utama: merah PORSIGAL (fokus visual utama) */
+.btn-primary {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--brand-hover);
+    color: #fff;
+    box-shadow: 0 6px 16px var(--brand-ring);
+}
+
+/* Tombol aksi utama (Tambah / Simpan / Kirim / Upload)
+   -> merah PORSIGAL, solid, jadi titik fokus visual */
+.btn-success {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+}
+
+.btn-success:hover {
+    background: var(--brand-hover);
+    color: #fff;
+    box-shadow: 0 6px 16px var(--brand-ring);
+}
+
+/* Aksi "Setujui" tetap hijau agar tidak sama dengan aksi utama */
+.btn-approve {
+    background: #15803D;
+    color: #fff;
+    border: none;
+}
+
+.btn-approve:hover {
+    background: #166534;
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(21, 128, 61, 0.22);
+}
+
+.btn-info {
+    background: #ECFEFF;
+    color: #0E7490;
+    border: none;
+}
+
+.btn-info:hover {
+    background: #CFFAFE;
+    color: #155E75;
+    box-shadow: none;
+}
+
+.btn-warning {
+    background: #FFFBEB;
+    color: #B45309;
+    border: none;
+}
+
+.btn-warning:hover {
+    background: #FEF3C7;
+    color: #92400E;
+    box-shadow: none;
+}
+
+.btn-danger {
+    background: #FEF2F2;
+    color: #B91C1C;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #FEE2E2;
+    color: #991B1B;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: var(--surface);
+    color: var(--text-body);
+    border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+    background: var(--surface-alt);
+    color: var(--text);
+}
+
+/* ============================================================
+   10. FORM
+   ============================================================ */
+.form-control,
+.form-select {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-size: 0.875rem;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-soft);
+    background: var(--surface);
+}
+
+.form-control::placeholder {
+    color: var(--text-faint);
+}
+
+.form-control-sm {
+    padding: 6px 10px;
+    font-size: 0.82rem;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--text-body);
+    margin-bottom: 6px;
+}
+
+/* ============================================================
+   11. BADGE / ALERT / MODAL
+   ============================================================ */
+.badge {
+    font-weight: 600;
+    font-size: 0.72rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    letter-spacing: 0;
+}
+
+.badge.bg-success {
+    background: #ECFDF5 !important;
+    color: #047857 !important;
+}
+
+.badge.bg-danger {
+    background: #FEF2F2 !important;
+    color: #B91C1C !important;
+}
+
+.badge.bg-warning {
+    background: #FFFBEB !important;
+    color: #B45309 !important;
+}
+
+.badge.bg-primary {
+    background: var(--brand-soft) !important;
+    color: var(--brand) !important;
+}
+
+.badge.bg-info {
+    background: #ECFEFF !important;
+    color: #0E7490 !important;
+}
+
+.badge.bg-secondary {
+    background: #F1F3F5 !important;
+    color: var(--text-secondary) !important;
+}
+
+.alert {
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+}
+
+.alert-danger {
+    background: #FEF2F2;
+    color: #B91C1C;
+    border-color: #FECACA;
+}
+
+.alert-success {
+    background: #ECFDF5;
+    color: #047857;
+    border-color: #A7F3D0;
+}
+
+.alert-secondary {
+    background: var(--surface-alt);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+
+.modal-content {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header.bg-danger {
+    background: var(--brand) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border);
+}
+
+.toast-notification {
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ============================================================
+   12. MISC: tab, pagination, inbox, search
+   ============================================================ */
+.nav-tabs {
+    border-bottom: 1px solid var(--border);
+    gap: 4px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s, color 0.15s;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--brand);
+    background: var(--brand-soft);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--brand);
+    font-weight: 600;
+    background: transparent;
+    box-shadow: inset 0 -2px 0 var(--brand);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.pagination .page-link {
+    color: var(--text-body);
+    border: 1px solid var(--border);
+    border-radius: 8px !important;
+    margin: 0 3px;
+    font-size: 0.85rem;
+}
+
+.pagination .page-link:hover {
+    color: var(--brand);
+    background: var(--brand-soft);
+    border-color: var(--brand-soft);
+}
+
+.inbox-item {
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    border-color: var(--border) !important;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--border) !important;
+    background: var(--surface);
+}
+
+.inbox-item:hover {
+    background: var(--surface-alt);
+    border-color: var(--border-strong) !important;
+    border-left-color: var(--brand) !important;
+}
+
+.inbox-item.unread {
+    border-left-color: var(--brand) !important;
+    background: var(--brand-soft);
+}
+
+.inbox-item.unread strong {
+    color: var(--brand);
+}
+
+.inbox-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.inbox-item.unread .inbox-icon {
+    background: #fff;
+    border-color: rgba(225, 29, 46, 0.25);
+    color: var(--brand);
+}
+
+.search-results {
+    border-color: var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.search-result-item {
+    border-bottom-color: var(--border);
+}
+
+.search-result-item:hover {
+    background: var(--brand-soft);
+    color: var(--brand);
+}
+
+/* ============================================================
+   13. LOGIN  (krem dipertahankan — ini momen branding)
+   ============================================================ */
+.login-wrapper {
+    background: var(--bg-body);
+}
+
+.login-card-merah {
+    background: linear-gradient(150deg, var(--brand) 0%, #6E1523 100%);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(20, 8, 11, 0.28);
+    max-width: 860px;
+}
+
+.login-card-gading {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 34px 30px;
+    box-shadow: 0 4px 18px rgba(16, 24, 40, 0.06);
+}
+
+.login-card-gading h3 {
+    color: var(--text);
+    letter-spacing: 3px;
+    font-size: 1.1rem;
+}
+
+.login-card-gading .form-control {
+    border: 1px solid var(--border-strong);
+}
+
+.login-card-gading .form-control:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-soft);
+}
+
+.login-card-gading .btn-login {
+    background: var(--brand);
+    border-radius: var(--radius-sm);
+    padding: 11px 20px;
+}
+
+.login-card-gading .btn-login:hover {
+    background: var(--brand-hover);
+    box-shadow: 0 6px 18px var(--brand-ring);
+}
+
+/* ============================================================
+   14. DASHBOARD: KPI strip + chart card
+   ============================================================ */
+
+/* --- KPI strip: 1 kartu putih, angka + label, tanpa kotak warna --- */
+.kpi-strip {
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.kpi-item {
+    flex: 1 1 190px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
+    border-right: 1px solid var(--border);
+}
+
+.kpi-item:last-child {
+    border-right: none;
+}
+
+.kpi-ico {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: var(--accent, var(--brand));
+    background: var(--tint, var(--brand-soft));
+}
+
+.kpi-body {
+    min-width: 0;
+}
+
+.kpi-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+}
+
+.kpi-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Varian warna KPI (dipakai lewat class) */
+.kpi-brand { --accent: var(--brand); --tint: var(--brand-soft); }
+.kpi-green { --accent: #059669; --tint: #ECFDF5; }
+.kpi-amber { --accent: #D97706; --tint: #FFFBEB; }
+.kpi-cyan  { --accent: #0891B2; --tint: #ECFEFF; }
+.kpi-red   { --accent: #DC2626; --tint: #FEF2F2; }
+.kpi-slate { --accent: #64748B; --tint: #F8FAFC; }
+
+/* --- Chart card --- */
+.chart-card {
+    height: 100%;
+}
+
+.chart-card .card-body {
+    padding: 18px 20px 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    font-size: 0.93rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+.chart-subtitle {
+    font-size: 0.76rem;
+    color: var(--text-faint);
+    margin: 2px 0 12px;
+}
+
+.chart-box {
+    flex: 1 1 auto;
+    min-height: 260px;
+}
+
+/* Placeholder saat data kosong */
+.chart-empty {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 260px;
+    color: var(--text-faint);
+    text-align: center;
+    padding: 20px;
+}
+
+.chart-empty i {
+    font-size: 1.9rem;
+    opacity: 0.4;
+}
+
+.chart-empty span {
+    font-size: 0.82rem;
+}
+
+/* ============================================================
+   14b. KARTU LAPORAN  (grid tombol cetak)
+   ============================================================ */
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.report-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    padding: 28px 20px 22px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.report-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+.report-card .report-ico {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 14px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    border: 1px solid rgba(225, 29, 46, 0.16);
+}
+
+.report-card h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 4px;
+}
+
+.report-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+    flex: 1;
+}
+
+/* Alias class lama -> merah brand (dipakai index.php & halaman lama) */
+.text-merah {
+    color: var(--brand) !important;
+}
+
+/* ============================================================
+   15. LAYOUT HALAMAN DAFTAR
+   Toolbar dipisah dari isi tabel agar tidak "nempel".
+   ============================================================ */
+
+/* Kartu putih dengan header */
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+}
+
+.panel-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-title i {
+    color: var(--brand);
+}
+
+.panel-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 2px 9px;
+    margin-left: 4px;
+}
+
+.panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+/* Tabel di dalam panel: tanpa border atas, radius kiri-kanan */
+.panel .table {
+    margin-bottom: 0;
+}
+
+.panel > .table thead th:first-child {
+    border-top-left-radius: 0;
+}
+
+.panel > .table thead th:last-child {
+    border-top-right-radius: 0;
+}
+
+.panel .table tbody td {
+    padding: 13px 20px;
+}
+
+/* Kolom pencarian */
+.search-box {
+    position: relative;
+    min-width: 240px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.search-box .form-control {
+    padding-left: 34px;
+}
+
+/* Empty state dalam tabel */
+.empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-faint);
+}
+
+.empty-state i {
+    font-size: 2.1rem;
+    opacity: 0.35;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.empty-state span {
+    font-size: 0.86rem;
+}
+
+/* ============================================================
+   16. RESPONSIVE  (sederhana — offcanvas penuh di Fase 2)
+   ============================================================ */
+@media (max-width: 991.98px) {
+    .sidebar {
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar .nav-link::before {
+        display: none;
+    }
+
+    /* Menu jadi grid 2 kolom di HP, tidak memanjang */
+    .sidebar .nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        padding-top: 10px !important;
+    }
+
+    .sidebar .nav-label {
+        grid-column: 1 / -1;
+        padding-top: 10px;
+    }
+
+    .content-wrapper {
+        padding: 18px 16px;
+    }
+
+    .panel-body {
+        padding: 16px;
+    }
+
+    .panel-head {
+        padding: 14px 16px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .kpi-item {
+        flex: 1 1 50%;
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 18px;
+    }
+
+    .kpi-value {
+        font-size: 1.45rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .page-title {
+        font-size: 1.2rem;
+    }
+
+    .small-box {
+        padding: 16px;
+    }
+
+    .small-box .inner h3 {
+        font-size: 1.5rem;
+    }
+
+    .search-box {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .panel-actions {
+        width: 100%;
+    }
+
+    .panel-actions .btn {
+        flex: 1 1 auto;
+    }
+}
+
+/* ============================================================
+   17. PRINT
+   ============================================================ */
+@media print {
+
+    .sidebar,
+    .navbar-merah,
+    .no-print,
+    .toast-notification {
+        display: none !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+
+    .content-wrapper {
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+}

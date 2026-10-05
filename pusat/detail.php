@@ -158,7 +158,7 @@ $q_penguji = mysqli_query($koneksi, "
         </div>
     <?php elseif ($ps['status'] == 'diterima_pusat'): ?>
         <div class="d-flex gap-3">
-            <a href="?id=<?= $id ?>&setujui=1" class="btn btn-success" onclick="return confirm('Setujui pengesahan ini? Sabuk peserta akan otomatis ter-upgrade.')"><i class="bi bi-check-circle"></i> ✅ Setujui</a>
+            <a href="?id=<?= $id ?>&setujui=1" class="btn btn-approve" onclick="return confirm('Setujui pengesahan ini? Sabuk peserta akan otomatis ter-upgrade.')"><i class="bi bi-check-circle"></i> ✅ Setujui</a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalTolak"><i class="bi bi-x-circle"></i> ❌ Tolak</button>
         </div>
 

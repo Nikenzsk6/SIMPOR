@@ -1,31 +1,51 @@
 <?php include_once '../../includes/sidebar_admin.php'; ?>
+<?php
+// Hanya ujian yang sudah punya peserta
+$q = mysqli_query($koneksi, "SELECT pu.*,
+    (SELECT COUNT(*) FROM penguji_ujian WHERE id_pendaftaran = pu.id_pendaftaran) as jml_penguji,
+    (SELECT COUNT(*) FROM detail_pendaftaran WHERE id_pendaftaran = pu.id_pendaftaran) as jml_peserta
+    FROM pendaftaran_ujian pu ORDER BY pu.id_pendaftaran DESC");
+
+$data = [];
+while ($row = mysqli_fetch_assoc($q)) {
+    if ($row['jml_peserta'] == 0) continue;
+    $data[] = $row;
+}
+$total = count($data);
+?>
 <h4 class="page-title">Penilaian Ujian</h4>
-<div class="content-wrapper">
+
+<div class="panel">
+    <div class="panel-head">
+        <h5 class="panel-title">
+            <i class="bi bi-clipboard-data"></i> Daftar Ujian Dinilai
+            <span class="panel-count"><?= number_format($total, 0, ',', '.') ?> ujian</span>
+        </h5>
+    </div>
+
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>No</th>
+                <th style="width:56px">No</th>
                 <th>Tingkat Ujian</th>
                 <th>Tgl Ujian</th>
-                <th>Jml Penguji</th>
-                <th>Jml Peserta</th>
-                <th>Aksi</th>
+                <th class="text-center">Jml Penguji</th>
+                <th class="text-center">Jml Peserta</th>
+                <th class="text-end" style="width:150px">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            <?php
-            $q = mysqli_query($koneksi, "SELECT pu.*, 
-                (SELECT COUNT(*) FROM penguji_ujian WHERE id_pendaftaran = pu.id_pendaftaran) as jml_penguji,
-                (SELECT COUNT(*) FROM detail_pendaftaran WHERE id_pendaftaran = pu.id_pendaftaran) as jml_peserta
-                FROM pendaftaran_ujian pu ORDER BY pu.id_pendaftaran DESC");
-            $data = [];
-            while ($row = mysqli_fetch_assoc($q)):
-                if ($row['jml_peserta'] == 0) continue;
-                $data[] = $row;
-            endwhile;
-            if (empty($data)): ?>
-                <tr><td colspan="6" class="text-center text-muted py-4">Data masih kosong</td></tr>
+            <?php if ($total == 0): ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <i class="bi bi-clipboard-data"></i>
+                            <span>Belum ada ujian yang punya peserta untuk dinilai</span>
+                        </div>
+                    </td>
+                </tr>
             <?php endif;
+
             $no = 1;
             foreach ($data as $d):
                 $id_ujian = $d['id_pendaftaran'];
@@ -37,11 +57,11 @@
             ?>
                 <tr>
                     <td><?= $no++ ?></td>
-                    <td><?= htmlspecialchars($d['tingkat_ujian']) ?></td>
+                    <td class="fw-semibold"><?= htmlspecialchars($d['tingkat_ujian']) ?></td>
                     <td><?= tgl_indonesia($d['tgl_ujian']) ?></td>
-                    <td><?= $d['jml_penguji'] ?></td>
-                    <td><?= $d['jml_peserta'] ?></td>
-                    <td>
+                    <td class="text-center"><?= $d['jml_penguji'] ?></td>
+                    <td class="text-center"><?= $d['jml_peserta'] ?></td>
+                    <td class="text-end text-nowrap">
                         <?php if ($ada_hasil > 0): ?>
                             <a href="hasil.php?id=<?= $id_ujian ?>" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Hasil</a>
                         <?php else: ?>

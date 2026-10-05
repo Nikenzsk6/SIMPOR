@@ -1,35 +1,34 @@
 <?php include_once '../../includes/sidebar_admin.php'; ?>
+
 <h4 class="page-title">Laporan</h4>
-<div class="row g-4">
-    <div class="col-md-4">
-        <div class="card card-dashboard">
-            <div class="card-body text-center">
-                <i class="bi bi-file-pdf fs-1 text-merah"></i>
-                <h5 class="mt-2">Laporan Hasil Ujian</h5>
-                <p class="text-muted small">Cetak PDF hasil ujian per periode</p>
-                <a href="cetak_hasil.php" class="btn btn-info btn-sm" target="_blank">Cetak</a>
-            </div>
-        </div>
+
+<div class="report-grid">
+    <div class="report-card">
+        <div class="report-ico"><i class="bi bi-file-earmark-pdf"></i></div>
+        <h5>Laporan Hasil Ujian</h5>
+        <p>Cetak PDF hasil ujian per periode ujian</p>
+        <a href="cetak_hasil.php" class="btn btn-success" target="_blank">
+            <i class="bi bi-printer"></i> Cetak Laporan
+        </a>
     </div>
-    <div class="col-md-4">
-        <div class="card card-dashboard">
-            <div class="card-body text-center">
-                <i class="bi bi-people fs-1 text-merah"></i>
-                <h5 class="mt-2">Laporan Anggota</h5>
-                <p class="text-muted small">Cetak PDF daftar anggota per sabuk</p>
-                <a href="cetak_anggota.php" class="btn btn-info btn-sm" target="_blank">Cetak</a>
-            </div>
-        </div>
+
+    <div class="report-card">
+        <div class="report-ico"><i class="bi bi-people"></i></div>
+        <h5>Laporan Anggota</h5>
+        <p>Cetak PDF daftar anggota beserta tingkatan sabuk</p>
+        <a href="cetak_anggota.php" class="btn btn-success" target="_blank">
+            <i class="bi bi-printer"></i> Cetak Laporan
+        </a>
     </div>
-    <div class="col-md-4">
-        <div class="card card-dashboard">
-            <div class="card-body text-center">
-                <i class="bi bi-person-video fs-1 text-merah"></i>
-                <h5 class="mt-2">Laporan Pelatih</h5>
-                <p class="text-muted small">Cetak PDF daftar pelatih</p>
-                <a href="cetak_pelatih.php" class="btn btn-info btn-sm" target="_blank">Cetak</a>
-            </div>
-        </div>
+
+    <div class="report-card">
+        <div class="report-ico"><i class="bi bi-person-video3"></i></div>
+        <h5>Laporan Pelatih</h5>
+        <p>Cetak PDF daftar pelatih yang sudah tersertifikasi</p>
+        <a href="cetak_pelatih.php" class="btn btn-success" target="_blank">
+            <i class="bi bi-printer"></i> Cetak Laporan
+        </a>
     </div>
 </div>
+
 <?php include_once '../../includes/footer.php'; ?>
