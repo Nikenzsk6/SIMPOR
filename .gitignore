@@ -1,0 +1,40 @@
+# =============================================
+#  GITIGNORE — SIMPOR
+#  File ini di folder paling atas (sejajar index.php)
+# =============================================
+
+# --- Dependency Composer -------------------------
+# Di-restore otomatis dengan: composer install
+# (composer.json + composer.lock ikut di-commit)
+/vendor/
+
+# --- File unggahan pengguna ----------------------
+# Berisi PDF sertifikat & hasil ujian.
+# Ini DATA, bukan kode. Jangan masuk riwayat git.
+/uploads/
+/assets/upload/
+
+# --- Kredensial & konfigurasi lokal -------------
+# Salinan aman ada di: includes/config.example.php
+/includes/config.php
+/.env
+
+# --- Berkas sistem operasi & editor --------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- Log & cache ---------------------------------
+*.log
+npm-debug.log*
+.php-cs-fixer.cache
+
+# --- Berkas sementara saat upload ----------------
+*.tmp
+*.bak
+~$*

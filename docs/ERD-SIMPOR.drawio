@@ -1,0 +1,101 @@
+<mxfile host="app.diagrams.net" agent="Python">
+  <diagram name="ERD-SIMPOR" id="erd-simpor">
+    <mxGraphModel dx="1935" dy="1123" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontColor=#333;" value="&lt;b&gt;Entity Relationship Diagram (ERD) - SIMPOR&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="500" x="250" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-pendaftaran_ujian" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;pendaftaran_ujian&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_pendaftaran&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tingkat_ujian&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_buka&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_tutup&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_ujian&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;status&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="164" width="240" x="80" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-penguji_ujian" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;penguji_ujian&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK, FK&lt;/td&gt;&lt;td&gt;id_pendaftaran&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK, FK&lt;/td&gt;&lt;td&gt;id_pelatih&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="76" width="240" x="400" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-pelatih" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;pelatih&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_pelatih&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;no_kta&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nama_pelatih&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tingkatan_sabuk&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;kontak&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;alamat&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;path_sertifikat&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="186" width="240" x="680" y="39" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-detail_pendaftaran" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;detail_pendaftaran&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_detail&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_pendaftaran&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_anggota&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;status_pembayaran&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="240" x="80" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-penilaian" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;penilaian&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_penilaian&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_detail&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_pelatih&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_teori&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_sejarah&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_jurus&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_mental&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_agama&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nilai_akhir&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;file_penilaian&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="240" x="400" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-anggota" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;anggota&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_anggota&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;no_kta&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nama_anggota&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tingkatan_sabuk&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;kontak&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;alamat&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;status&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="171" width="240" x="680" y="239" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-hasil_ujian" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;hasil_ujian&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_hasil&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_detail&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;rata_rata_nilai&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;status_kelulusan&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_penetapan&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="142" width="240" x="80" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-pengesahan" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;pengesahan&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_pengesahan&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_hasil&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;file_pdf&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;status&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_kirim&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_diterima&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tgl_disetujui&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;FK&lt;/td&gt;&lt;td&gt;id_user_pusat&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;catatan&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="198" width="240" x="420" y="472" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-user" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;user&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_user&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nama_user&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;username&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;password&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;kontak&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;role (Cabang / Pusat)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="164" width="240" x="700" y="436" as="geometry" />
+        </mxCell>
+        <mxCell id="tbl-profil" parent="1" style="whiteSpace=wrap;html=1;align=left;overflow=hidden;rounded=1;shadow=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;fontColor=#333;verticalAlign=top;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;profil&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;PK&lt;/td&gt;&lt;td&gt;id_profil&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;tipe&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;nama_organisasi&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;singkatan&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;alamat&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td width=&quot;60&quot;&gt;&lt;/td&gt;&lt;td&gt;kontak&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="164" width="240" x="90" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-0" edge="1" parent="1" source="tbl-pendaftaran_ujian" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=ERmany;startArrow=ERone;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;exitX=0.003;exitY=0.239;exitDx=0;exitDy=0;exitPerimeter=0;" target="tbl-detail_pendaftaran">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="89" />
+              <mxPoint x="50" y="305" />
+            </Array>
+            <mxPoint x="320" y="90" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-1" edge="1" parent="1" source="tbl-pendaftaran_ujian" style="edgeStyle=none;rounded=0;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;endArrow=ERmany;startArrow=ERone;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="91" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-2" edge="1" parent="1" source="tbl-detail_pendaftaran" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;endArrow=ERone;startArrow=ERmany;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;" target="tbl-anggota">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="320" />
+              <mxPoint x="380" y="400" />
+              <mxPoint x="660" y="400" />
+              <mxPoint x="660" y="282" />
+              <mxPoint x="670" y="282" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-3" edge="1" parent="1" source="tbl-detail_pendaftaran" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=ERone;startArrow=ERone;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;exitX=0.002;exitY=0.335;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.001;entryY=0.399;entryDx=0;entryDy=0;entryPerimeter=0;" target="tbl-hasil_ujian">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="290" />
+              <mxPoint x="60" y="457" />
+            </Array>
+            <mxPoint x="70" y="310" as="sourcePoint" />
+            <mxPoint x="320" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-4" edge="1" parent="1" source="tbl-detail_pendaftaran" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=0.999;exitY=0.33;exitDx=0;exitDy=0;endArrow=ERmany;startArrow=ERone;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;exitPerimeter=0;" target="tbl-penilaian">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-5" edge="1" parent="1" source="tbl-penguji_ujian" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=-0.001;entryY=0.195;entryDx=0;entryDy=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;endArrow=ERone;startArrow=ERmany;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;entryPerimeter=0;" target="tbl-pelatih">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-7" edge="1" parent="1" source="tbl-hasil_ujian" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;endArrow=ERone;startArrow=ERone;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;" target="tbl-pengesahan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-8" edge="1" parent="1" source="tbl-pengesahan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.798;exitDx=0;exitDy=0;endArrow=ERone;startArrow=ERmany;endFill=0;startFill=0;fontSize=10;labelBackgroundColor=#FFF;strokeColor=#666;exitPerimeter=0;" target="tbl-user">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10;fontColor=#555;rounded=1;fillColor=#F5F5F5;strokeColor=#CCC;" value="&lt;b&gt;Keterangan:&lt;/b&gt;&lt;br&gt;PK = Primary Key&lt;br&gt;FK = Foreign Key" vertex="1">
+          <mxGeometry height="60" width="180" x="730" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="khY5q7EV7zjHrH-_YDtE-1" edge="1" parent="1" source="tbl-pelatih" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.993;entryY=0.332;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;strokeColor=#666666;" target="tbl-penilaian">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="80" />
+              <mxPoint x="660" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
