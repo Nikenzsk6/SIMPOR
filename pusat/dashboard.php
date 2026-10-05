@@ -1,7 +1,7 @@
-<?php include_once '../includes/sidebar_pusat.php'; ?>
+﻿<?php include_once '../includes/sidebar_pusat.php'; ?>
 <?php
 /* ============================================================
-   QUERY DASHBOARD — hanya READ, tidak mengubah alur bisnis
+   QUERY DASHBOARD â€” hanya READ, tidak mengubah alur bisnis
    ============================================================ */
 
 /* --- KPI --- */
@@ -235,7 +235,11 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
 <?php if ($trend_total > 0 || $jml_total > 0 || $nilai_total > 0 || $lulus_total > 0): ?>
     <script>
     var CHART_FONT = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    var CHART_TEXT = '#6B7280';
+    var CHART_TEXT = '#64748B';
+
+    // Tunggu DOM siap: library ApexCharts dimuat di footer (sebelum </body>),
+    // jadi skrip ini tidak boleh jalan sebelum library ada.
+    window.addEventListener('DOMContentLoaded', function () {
 
     <?php if ($trend_total > 0): ?>
     new ApexCharts(document.querySelector('#chartTren'), {
@@ -258,7 +262,7 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
             min: 0,
             forceNiceScale: true
         },
-        colors: ['#8C1F2F'],
+        colors: ['#E11D2E'],
         dataLabels: { enabled: false },
         stroke: { width: 3, curve: 'smooth', cap: 'round' },
         fill: {
@@ -267,7 +271,7 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
         },
         legend: { show: false },
         grid: {
-            borderColor: '#E9ECEF',
+            borderColor: '#E3E9F0',
             strokeDashArray: 4,
             xaxis: { lines: { show: false } }
         },
@@ -353,12 +357,12 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
         dataLabels: {
             enabled: true,
             offsetY: -4,
-            style: { colors: ['#6B7280'], fontSize: '11px', fontWeight: 600 },
+            style: { colors: ['#64748B'], fontSize: '11px', fontWeight: 600 },
             formatter: function (v) { return v > 0 ? v.toFixed(1) : ''; }
         },
         legend: { show: false },
         grid: {
-            borderColor: '#E9ECEF',
+            borderColor: '#E3E9F0',
             strokeDashArray: 4,
             xaxis: { lines: { show: false } }
         },
@@ -409,6 +413,8 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
         tooltip: { y: { formatter: function (v) { return v + ' peserta'; } } }
     }).render();
     <?php endif; ?>
+
+    });
     </script>
 <?php endif; ?>
 

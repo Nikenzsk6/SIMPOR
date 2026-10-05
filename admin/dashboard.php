@@ -1,7 +1,7 @@
-<?php include_once '../includes/sidebar_admin.php'; ?>
+﻿<?php include_once '../includes/sidebar_admin.php'; ?>
 <?php
 /* ============================================================
-   QUERY DASHBOARD — hanya READ, tidak mengubah alur bisnis
+   QUERY DASHBOARD â€” hanya READ, tidak mengubah alur bisnis
    ============================================================ */
 
 /* --- KPI --- */
@@ -241,7 +241,11 @@ $nilai_total = count($nilai_data);
 <?php if ($trend_total > 0 || $st_total > 0 || $sabuk_total > 0 || $nilai_total > 0): ?>
     <script>
     var CHART_FONT = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    var CHART_TEXT = '#6B7280';
+    var CHART_TEXT = '#64748B';
+
+    // Tunggu DOM siap: library ApexCharts dimuat di footer (sebelum </body>),
+    // jadi skrip ini tidak boleh jalan sebelum library ada.
+    window.addEventListener('DOMContentLoaded', function () {
 
     <?php if ($trend_total > 0): ?>
     new ApexCharts(document.querySelector('#chartTren'), {
@@ -264,7 +268,7 @@ $nilai_total = count($nilai_data);
             min: 0,
             forceNiceScale: true
         },
-        colors: ['#8C1F2F'],
+        colors: ['#E11D2E'],
         dataLabels: { enabled: false },
         stroke: { width: 3, curve: 'smooth', cap: 'round' },
         fill: {
@@ -273,7 +277,7 @@ $nilai_total = count($nilai_data);
         },
         legend: { show: false },
         grid: {
-            borderColor: '#E9ECEF',
+            borderColor: '#E3E9F0',
             strokeDashArray: 4,
             xaxis: { lines: { show: false } }
         },
@@ -356,16 +360,16 @@ $nilai_total = count($nilai_data);
                 borderRadiusApplication: 'end'
             }
         },
-        colors: ['#8C1F2F'],
+        colors: ['#E11D2E'],
         dataLabels: {
             enabled: true,
             offsetY: -4,
-            style: { colors: ['#6B7280'], fontSize: '11px', fontWeight: 600 },
+            style: { colors: ['#64748B'], fontSize: '11px', fontWeight: 600 },
             formatter: function (v) { return v > 0 ? v : ''; }
         },
         legend: { show: false },
         grid: {
-            borderColor: '#E9ECEF',
+            borderColor: '#E3E9F0',
             strokeDashArray: 4,
             xaxis: { lines: { show: false } }
         },
@@ -403,12 +407,12 @@ $nilai_total = count($nilai_data);
         dataLabels: {
             enabled: true,
             offsetY: -4,
-            style: { colors: ['#6B7280'], fontSize: '11px', fontWeight: 600 },
+            style: { colors: ['#64748B'], fontSize: '11px', fontWeight: 600 },
             formatter: function (v) { return v > 0 ? v.toFixed(1) : ''; }
         },
         legend: { show: false },
         grid: {
-            borderColor: '#E9ECEF',
+            borderColor: '#E3E9F0',
             strokeDashArray: 4,
             xaxis: { lines: { show: false } },
             yaxis: { lines: { show: true } }
@@ -416,6 +420,8 @@ $nilai_total = count($nilai_data);
         tooltip: { y: { formatter: function (v) { return v.toFixed(1); } } }
     }).render();
     <?php endif; ?>
+
+    });
     </script>
 <?php endif; ?>
 
