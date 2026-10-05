@@ -940,17 +940,66 @@ body {
 }
 
 /* ============================================================
-   13. LOGIN  (krem dipertahankan — ini momen branding)
+   13. LOGIN
+   Panel kiri memakai biru dongker yang sama dengan navbar + sidebar,
+   supaya layar login menyatu dengan aplikasi di dalamnya.
+   Aksen merah-emas hanya sebagai strip tipis (signature logo).
    ============================================================ */
 .login-wrapper {
     background: var(--bg-body);
 }
 
 .login-card-merah {
-    background: linear-gradient(150deg, var(--brand) 0%, #6E1523 100%);
+    background: var(--nav-bg);
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(20, 8, 11, 0.28);
+    box-shadow: 0 20px 50px rgba(16, 35, 61, 0.28);
     max-width: 860px;
+}
+
+/* Strip merah -> emas di tepi atas kartu, sama seperti navbar */
+.login-card-merah {
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card-merah::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand) 0%, #F0596A 40%, var(--gold) 100%);
+    z-index: 2;
+}
+
+.login-left {
+    background: linear-gradient(155deg, var(--nav-bg) 0%, var(--nav-bg-deep) 100%);
+}
+
+.login-left h1 {
+    color: #FFFFFF;
+    letter-spacing: 1.5px;
+}
+
+.login-left .login-subtitle {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+/* Logo dilingkari putih agar kontras di atas navy */
+.login-logo {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 12px;
+    width: 104px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    filter: none;
+}
+
+/* Panel kanan dibiarkan lighten, supaya kartu form putih di dalamnya
+   tetap terlihat sebagai kartu (bukan menyatu) */
+.login-right {
+    background: var(--bg-body);
 }
 
 .login-card-gading {
@@ -958,7 +1007,7 @@ body {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 34px 30px;
-    box-shadow: 0 4px 18px rgba(16, 24, 40, 0.06);
+    box-shadow: 0 4px 18px rgba(16, 35, 61, 0.06);
 }
 
 .login-card-gading h3 {
@@ -985,6 +1034,44 @@ body {
 .login-card-gading .btn-login:hover {
     background: var(--brand-hover);
     box-shadow: 0 6px 18px var(--brand-ring);
+}
+
+/* Panel kiri sedikit lebih gelap dari navbar agar ada kedalaman */
+.login-card-gading .form-label {
+    color: var(--text-body);
+    font-weight: 500;
+}
+
+/* Toast error: rail merah brand, bayangan navy (bukan hitam)
+   PENTING: shorthand `border` harus lebih dulu, kalau tidak ia
+   menimpa border-left di bawahnya. */
+.login-toast {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-body);
+    padding: 12px 18px;
+    border-left: 3px solid var(--brand);
+}
+
+.login-toast i {
+    color: var(--brand);
+}
+
+@media (max-width: 767.98px) {
+    /* style.css menyetel logo 72px; samakan proporsinya supaya
+       padding putih tidak membuat logo terlalu besar di layar kecil */
+    .login-logo {
+        width: 76px;
+        padding: 9px;
+        border-radius: 16px;
+    }
+
+    .login-card-gading {
+        padding: 24px 20px;
+        box-shadow: none;
+    }
 }
 
 /* ============================================================
