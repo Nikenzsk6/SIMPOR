@@ -38,3 +38,23 @@ npm-debug.log*
 *.tmp
 *.bak
 ~$*
+
+# --- Dump / cadangan database --------------------
+# JANGAN pernah commit data asli. Dump database berisi nama,
+# kontak, alamat, dan hash password semua user.
+*.sql
+*.sql.gz
+*.dump
+*.bak.sql
+
+# Pengecualian: HANYA file demo/skema ini yang boleh di-commit.
+# File .sql lain (termasuk dump data asli) tetap diabaikan.
+!/docs/seed-contoh.sql
+!/docs/CARA-HAPUS-DATA-CONTOH.sql
+!/docs/skema-database.sql
+
+# --- Folder cadangan lokal -----------------------
+/backup/
+/database/
+/dump/
+_dump/

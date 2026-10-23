@@ -95,3 +95,42 @@ function auto_status_sabuk($tingkatan)
     $warga = ['Gladi Gatra', 'Gladi Taruna', 'Gladi Satya', 'Wira Tama'];
     return in_array($tingkatan, $warga) ? 'warga' : 'non-warga';
 }
+
+/* ============================================================
+   KEAMANAN PASSWORD
+   ------------------------------------------------------------
+   Hash baru memakai password_hash() (bcrypt), bukan md5.
+   password_verify() dipakai untuk mencocokkan.
+
+   Hash md5 lama tetap bisa login lewat verify_password(), lalu
+   otomatis diganti ke bcrypt saat login berhasil (lihat login.php).
+   Dengan begitu pengguna lama tidak perlu reset password.
+   ============================================================ */
+
+function hash_password($plain)
+{
+    return password_hash($plain, PASSWORD_DEFAULT);
+}
+
+function is_legacy_md5($hash)
+{
+    return is_string($hash) && strlen($hash) === 32 && ctype_xdigit($hash);
+}
+
+/**
+ * Cek password terhadap hash tersimpan.
+ * Kembalikan array: [bool valid, bool perlu_rehash]
+ */
+function verify_password($plain, $stored)
+{
+    if (is_string($stored) && $stored !== '' && password_verify($plain, $stored)) {
+        return [true, password_needs_rehash($stored, PASSWORD_DEFAULT)];
+    }
+
+    // Kompatibilitas hash md5 lama
+    if (is_legacy_md5($stored)) {
+        return [hash_equals(strtolower($stored), md5($plain)), true];
+    }
+
+    return [false, false];
+}

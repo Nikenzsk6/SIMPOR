@@ -14,7 +14,7 @@ if ($_POST) {
     $username = mysqli_real_escape_string($koneksi, $_POST['username']);
     $q = "UPDATE user SET nama_user='$nama', kontak='$kontak', username='$username'";
     if (!empty($_POST['password'])) {
-        $q .= ", password='" . md5($_POST['password']) . "'";
+        $q .= ", password='" . hash_password($_POST['password']) . "'";
     }
     $q .= " WHERE id_user=$id";
     mysqli_query($koneksi, $q);

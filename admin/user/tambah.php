@@ -4,7 +4,7 @@ if ($_POST) {
     $nama = mysqli_real_escape_string($koneksi, $_POST['nama_user']);
     $username = mysqli_real_escape_string($koneksi, $_POST['username']);
     $kontak = mysqli_real_escape_string($koneksi, $_POST['kontak']);
-    $password = md5($_POST['password']);
+    $password = hash_password($_POST['password']);
     $cek = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as jml FROM user WHERE username='$username'"));
     if ($cek['jml'] > 0) {
         echo alert('Username sudah digunakan!', 'danger');

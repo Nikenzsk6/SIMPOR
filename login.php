@@ -1,25 +1,86 @@
 <?php
 include_once 'includes/config.php';
+
+// --- Pengamanan cookie sesi (harus diset sebelum session_start) ---
+ini_set('session.use_strict_mode', '1');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'httponly' => true,   // tidak bisa dibaca JavaScript
+    'samesite' => 'Lax',  // tidak ikut terkirim dari situs lain
+    'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+]);
 session_start();
 
+// --- Batas percobaan login (dasar, mencegah tebak password beruntun) ---
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_LOCK_SECONDS = 60;
+
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+if (!isset($_SESSION['login_lock_until'])) {
+    $_SESSION['login_lock_until'] = 0;
+}
+
 if ($_POST) {
-    $username = mysqli_real_escape_string($koneksi, $_POST['username']);
-    $password = md5($_POST['password']);
+    $username = trim($_POST['username'] ?? '');
+    $plain    = $_POST['password'] ?? '';
 
-    $q = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$username' AND password='$password'");
-    $d = mysqli_fetch_assoc($q);
-
-    if ($d) {
-        $_SESSION['id_user'] = $d['id_user'];
-        $_SESSION['role']    = $d['role'];
-
-        if ($d['role'] == 'admin')
-            header('Location: admin/dashboard.php');
-        else
-            header('Location: pusat/dashboard.php');
-        exit;
+    if ($_SESSION['login_lock_until'] > time()) {
+        $sisa  = $_SESSION['login_lock_until'] - time();
+        $error = 'Terlalu banyak percobaan. Coba lagi dalam ' . $sisa . ' detik.';
+    } elseif ($username === '' || $plain === '') {
+        $error = 'Username dan password wajib diisi!';
     } else {
-        $error = 'Username atau password salah!';
+        // Prepared statement: username tidak pernah disisipkan langsung ke query
+        $stmt = mysqli_prepare($koneksi, "SELECT id_user, role, password FROM user WHERE username = ? LIMIT 1");
+        mysqli_stmt_bind_param($stmt, 's', $username);
+        mysqli_stmt_execute($stmt);
+        $hasil = mysqli_stmt_get_result($stmt);
+        $d     = mysqli_fetch_assoc($hasil);
+        mysqli_stmt_close($stmt);
+
+        $valid = false;
+        $perlu_rehash = false;
+        if ($d) {
+            list($valid, $perlu_rehash) = verify_password($plain, $d['password']);
+        }
+
+        if ($valid) {
+            // Login berhasil: bersihkan penghitung, ganti ID sesi
+            // (mencegah session fixation), lalu simpan identitas.
+            unset($_SESSION['login_attempts'], $_SESSION['login_lock_until']);
+            session_regenerate_id(true);
+
+            $_SESSION['id_user'] = (int) $d['id_user'];
+            $_SESSION['role']    = $d['role'];
+
+            // Hash md5 lama otomatis dinaikkan ke bcrypt saat login berhasil
+            if ($perlu_rehash) {
+                $hash_baru = hash_password($plain);
+                $up = mysqli_prepare($koneksi, "UPDATE user SET password = ? WHERE id_user = ?");
+                mysqli_stmt_bind_param($up, 'si', $hash_baru, $d['id_user']);
+                mysqli_stmt_execute($up);
+                mysqli_stmt_close($up);
+            }
+
+            if ($d['role'] == 'admin')
+                header('Location: admin/dashboard.php');
+            else
+                header('Location: pusat/dashboard.php');
+            exit;
+        } else {
+            $_SESSION['login_attempts']++;
+            if ($_SESSION['login_attempts'] >= LOGIN_MAX_ATTEMPTS) {
+                $_SESSION['login_lock_until'] = time() + LOGIN_LOCK_SECONDS;
+                $_SESSION['login_attempts']   = 0;
+                $error = 'Terlalu banyak percobaan. Coba lagi dalam ' . LOGIN_LOCK_SECONDS . ' detik.';
+            } else {
+                $error = 'Username atau password salah!';
+            }
+            usleep(200000); // perlambat percobaan beruntun
+        }
     }
 }
 ?>
