@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($old['nama_user'] === '') {
         $errors[] = 'Nama User wajib diisi.';
-    } elseif (!validasi_nama_user($old['nama_user'])) {
+    } elseif ($old['nama_user'] !== $d['nama_user'] && !validasi_nama_user($old['nama_user'])) {
         $errors[] = 'Nama User tidak boleh mengandung angka.';
     }
 
