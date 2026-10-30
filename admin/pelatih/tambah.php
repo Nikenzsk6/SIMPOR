@@ -83,6 +83,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (no_kta, nama_pelatih, tempat_lahir, tanggal_lahir, jenis_kelamin, tingkatan_sabuk, kontak, alamat, path_sertifikat)
                 VALUES ('$no_kta', '$nama_pelatih', '$tempat_lahir', '$tgl_lahir', '$jenis_kelamin', '$tingkatan_sabuk', '$kontak', '$alamat', '$path_sertifikat')");
             if ($q) {
+                $id_baru = mysqli_insert_id($koneksi);
+                catat_log('TAMBAH', 'pelatih', 'Menambah pelatih: ' . $old['nama_pelatih'], $id_baru, null, [
+                    'no_kta'          => $old['no_kta'],
+                    'nama_pelatih'    => $old['nama_pelatih'],
+                    'tempat_lahir'    => $old['tempat_lahir'],
+                    'tanggal_lahir'   => $tgl_lahir,
+                    'jenis_kelamin'   => $old['jenis_kelamin'],
+                    'tingkatan_sabuk' => $old['tingkatan_sabuk'],
+                    'kontak'          => $old['kontak'],
+                    'alamat'          => $old['alamat'],
+                    'path_sertifikat' => $path_sertifikat,
+                ]);
                 set_flash('Data pelatih berhasil disimpan.');
                 header('Location: index.php');
                 exit;

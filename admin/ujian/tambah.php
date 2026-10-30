@@ -58,6 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES ('$nama_ujian', '$tingkat_ujian', '$buka', '$tutup', '$ujian', '$status')");
         if ($q) {
             $id_baru = mysqli_insert_id($koneksi);
+            catat_log('TAMBAH', 'ujian', 'Menambah ujian: ' . $old['nama_ujian'], $id_baru, null, [
+                'nama_ujian'    => $old['nama_ujian'],
+                'tingkat_ujian' => $old['tingkat_ujian'],
+                'tgl_buka'      => $buka,
+                'tgl_tutup'     => $tutup,
+                'tgl_ujian'     => $ujian,
+                'status'        => $status,
+            ]);
             set_flash('Data ujian berhasil disimpan.');
             header('Location: detail.php?id=' . $id_baru);
             exit;

@@ -95,6 +95,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 tingkatan_sabuk='$tingkatan_sabuk', kontak='$kontak', alamat='$alamat',
                 path_sertifikat='$path_sertifikat' WHERE id_pelatih=$id");
             if ($q) {
+                catat_log('UBAH', 'pelatih', 'Mengubah data pelatih: ' . $old['nama_pelatih'], $id, $d, [
+                    'no_kta'          => $old['no_kta'],
+                    'nama_pelatih'    => $old['nama_pelatih'],
+                    'tempat_lahir'    => $old['tempat_lahir'],
+                    'tanggal_lahir'   => $tgl_lahir,
+                    'jenis_kelamin'   => $old['jenis_kelamin'],
+                    'tingkatan_sabuk' => $old['tingkatan_sabuk'],
+                    'kontak'          => $old['kontak'],
+                    'alamat'          => $old['alamat'],
+                    'path_sertifikat' => $path_sertifikat,
+                ]);
                 set_flash('Data pelatih berhasil diubah.');
                 header('Location: index.php');
                 exit;

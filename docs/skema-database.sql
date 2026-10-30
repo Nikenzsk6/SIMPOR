@@ -61,6 +61,30 @@ CREATE TABLE `hasil_ujian` (
   CONSTRAINT `hasil_ujian_ibfk_1` FOREIGN KEY (`id_detail`) REFERENCES `detail_pendaftaran` (`id_detail`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_aktivitas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `log_aktivitas` (
+  `id_log` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id_user` int DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
+  `aksi` varchar(50) NOT NULL,
+  `modul` varchar(50) NOT NULL,
+  `id_referensi` varchar(50) DEFAULT NULL,
+  `deskripsi` text,
+  `data_lama` longtext,
+  `data_baru` longtext,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `waktu` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_log`),
+  KEY `idx_log_user` (`id_user`),
+  KEY `idx_log_modul` (`modul`),
+  KEY `idx_log_aksi` (`aksi`),
+  KEY `idx_log_waktu` (`waktu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pelatih`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

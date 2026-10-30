@@ -306,3 +306,110 @@ function simpan_gambar($field, $folder, $maks_byte = 10485760)
 
     return $rel . '/' . $nama;
 }
+
+/* ============================================================
+   LOG AKTIVITAS (HANYA DATABASE)
+   ------------------------------------------------------------
+   Mencatat perubahan data oleh admin cabang maupun pusat ke
+   tabel log_aktivitas. Tidak ditampilkan di aplikasi.
+
+   Fungsi ini tidak boleh menghentikan alur aplikasi: jika tabel
+   belum ada atau pencatatan gagal, cukup kembalikan false.
+   ============================================================ */
+
+/**
+ * Simpan satu baris log aktivitas.
+ *
+ * @param string     $aksi         Contoh: TAMBAH, UBAH, HAPUS, LOGIN.
+ * @param string     $modul        Contoh: pelatih, anggota, ujian, user.
+ * @param string     $deskripsi    Keterangan singkat yang mudah dibaca.
+ * @param mixed      $id_referensi ID data yang terpengaruh (opsional).
+ * @param mixed      $data_lama    Data sebelum perubahan (opsional, array/string).
+ * @param mixed      $data_baru    Data sesudah perubahan (opsional, array/string).
+ * @param array|null $identitas    Paksa identitas pelaku, mis. saat login gagal:
+ *                                 ['id_user'=>..,'username'=>..,'role'=>..].
+ * @return bool
+ */
+function catat_log($aksi, $modul, $deskripsi = '', $id_referensi = null, $data_lama = null, $data_baru = null, $identitas = null)
+{
+    global $koneksi;
+
+    if (!isset($koneksi) || !($koneksi instanceof mysqli)) {
+        return false;
+    }
+
+    // Identitas pelaku dari sesi (fallback ke parameter $identitas)
+    $id_user  = $_SESSION['id_user'] ?? null;
+    $username = $_SESSION['username'] ?? null;
+    $role     = $_SESSION['role'] ?? null;
+
+    if (is_array($identitas)) {
+        if (array_key_exists('id_user', $identitas))  $id_user  = $identitas['id_user'];
+        if (array_key_exists('username', $identitas)) $username = $identitas['username'];
+        if (array_key_exists('role', $identitas))     $role     = $identitas['role'];
+    }
+
+    // Lengkapi username/role dari database bila sesi hanya menyimpan id_user
+    if ($id_user !== null && ($username === null || $role === null)) {
+        $id_cek = (int) $id_user;
+        $q = @mysqli_query($koneksi, "SELECT username, role FROM user WHERE id_user=$id_cek LIMIT 1");
+        if ($q && ($row = mysqli_fetch_assoc($q))) {
+            if ($username === null) $username = $row['username'];
+            if ($role === null)     $role     = $row['role'];
+        }
+    }
+
+    $id_user      = $id_user === null ? null : (int) $id_user;
+    $username     = $username === null ? null : substr((string) $username, 0, 50);
+    $role         = $role === null ? null : substr((string) $role, 0, 20);
+    $aksi         = substr((string) $aksi, 0, 50);
+    $modul        = substr((string) $modul, 0, 50);
+    $id_referensi = $id_referensi === null ? null : substr((string) $id_referensi, 0, 50);
+    $deskripsi    = $deskripsi === null ? null : (string) $deskripsi;
+
+    $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+    $ua = isset($_SERVER['HTTP_USER_AGENT'])
+        ? substr((string) $_SERVER['HTTP_USER_AGENT'], 0, 255)
+        : null;
+
+    $json_lama = null;
+    if ($data_lama !== null) {
+        $json_lama = json_encode($data_lama, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($json_lama === false) $json_lama = null;
+    }
+
+    $json_baru = null;
+    if ($data_baru !== null) {
+        $json_baru = json_encode($data_baru, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($json_baru === false) $json_baru = null;
+    }
+
+    $stmt = @mysqli_prepare($koneksi, "INSERT INTO log_aktivitas
+        (id_user, username, role, aksi, modul, id_referensi, deskripsi, data_lama, data_baru, ip_address, user_agent)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt) {
+        return false; // tabel belum ada / gagal menyiapkan query
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        'issssssssss',
+        $id_user,
+        $username,
+        $role,
+        $aksi,
+        $modul,
+        $id_referensi,
+        $deskripsi,
+        $json_lama,
+        $json_baru,
+        $ip,
+        $ua
+    );
+
+    $ok = @mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    return (bool) $ok;
+}

@@ -67,5 +67,12 @@ DELETE FROM pelatih WHERE no_kta LIKE '2024000000%';
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- =====================================================================
+--  Catatan: tabel log_aktivitas sengaja TIDAK dihapus karena merupakan
+--  jejak audit perubahan data. Jika ingin mengosongkannya juga, jalankan
+--  manual (opsional):
+--      TRUNCATE TABLE log_aktivitas;
+-- =====================================================================
+
+-- =====================================================================
 --  Selesai. Refresh dashboard -> grafik kembali sesuai data asli.
 -- =====================================================================

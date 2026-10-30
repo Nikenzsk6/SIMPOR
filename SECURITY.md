@@ -102,6 +102,21 @@ dari 32 karakter menjadi 60 karakter berawalan `$2y$`.
 - Pesan error dibuat umum ("Username atau password salah") agar tidak
   membocorkan username mana yang terdaftar.
 
+### Log aktivitas (jejak audit)
+
+- Perubahan data oleh admin cabang maupun pusat dicatat ke tabel
+  `log_aktivitas`: login/logout, tambah/ubah/hapus pelatih, anggota,
+  ujian, user, profil, upload/hitung nilai, serta terima/setujui/tolak
+  pengesahan.
+- Log **hanya disimpan di database** dan tidak ditampilkan di aplikasi.
+- Setiap baris menyimpan pelaku (`id_user`, `username`, `role`), aksi,
+  modul, ID data, keterangan, data lama/baru (JSON), IP, user agent, dan
+  waktu.
+- Karena log dapat memuat data pribadi (nama, KTA, kontak), **jangan**
+  menyertakan dump tabel `log_aktivitas` di repo publik.
+- Pencatatan dibuat gagal-aman: kalau tabel belum ada atau penyimpanan
+  gagal, alur aplikasi tetap berjalan.
+
 ### Lain-lain
 
 - Semua input tulis di halaman CRUD sudah melewati

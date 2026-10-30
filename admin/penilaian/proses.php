@@ -30,6 +30,20 @@ if (!$ujian) {
 // Handle hitung akhir
 if (isset($_GET['hitung'])) {
     hitung_hasil_ujian($koneksi, $id_ujian);
+    $ringkas = mysqli_fetch_assoc(mysqli_query($koneksi, "
+        SELECT COUNT(*) AS jumlah,
+               SUM(h.status_kelulusan='LULUS') AS lulus,
+               SUM(h.status_kelulusan='TIDAK LULUS') AS tidak_lulus
+        FROM hasil_ujian h
+        JOIN detail_pendaftaran dp ON h.id_detail = dp.id_detail
+        WHERE dp.id_pendaftaran = $id_ujian
+    "));
+    catat_log('HITUNG_NILAI', 'penilaian', 'Menghitung hasil akhir ujian ' . ($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']), $id_ujian, null, [
+        'id_ujian'    => $id_ujian,
+        'jumlah'      => (int) ($ringkas['jumlah'] ?? 0),
+        'lulus'       => (int) ($ringkas['lulus'] ?? 0),
+        'tidak_lulus' => (int) ($ringkas['tidak_lulus'] ?? 0),
+    ]);
     set_flash('Hasil akhir ujian berhasil dihitung!', 'success');
     header("Location: hasil.php?id=$id_ujian");
     exit;

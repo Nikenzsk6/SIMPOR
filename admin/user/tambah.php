@@ -60,6 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $q = mysqli_query($koneksi, "INSERT INTO user (nama_user, kontak, username, password, role, status)
             VALUES ('$nama', '$kontak', '$username', '$password', 'admin', '$status')");
         if ($q) {
+            $id_baru = mysqli_insert_id($koneksi);
+            catat_log('TAMBAH', 'user', 'Menambah user admin: ' . $old['username'], $id_baru, null, [
+                'nama_user' => $old['nama_user'],
+                'username'  => $old['username'],
+                'kontak'    => $old['kontak'],
+                'role'      => 'admin',
+                'status'    => $status,
+            ]);
             set_flash('User admin berhasil ditambahkan.');
             header('Location: index.php');
             exit;

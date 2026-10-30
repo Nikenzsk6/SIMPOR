@@ -69,6 +69,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $q .= " WHERE id_user=$id";
 
         if (mysqli_query($koneksi, $q)) {
+            catat_log('UBAH', 'user', 'Mengubah user admin: ' . $old['username'], $id, [
+                'nama_user' => $d['nama_user'],
+                'username'  => $d['username'],
+                'kontak'    => $d['kontak'],
+                'role'      => $d['role'],
+                'status'    => $d['status'] ?? 'aktif',
+            ], [
+                'nama_user'       => $old['nama_user'],
+                'username'        => $old['username'],
+                'kontak'          => $old['kontak'],
+                'role'            => $old['role'],
+                'status'          => $status,
+                'password_diubah' => !empty($_POST['password']),
+            ]);
             set_flash('User berhasil diupdate!');
             header('Location: index.php');
             exit;

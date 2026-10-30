@@ -142,6 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file_excel'])) {
                 $sukses++;
             }
 
+            catat_log('UPLOAD_NILAI', 'penilaian', 'Upload nilai ' . $sukses . ' peserta untuk ujian ' . ($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']) . ' dari file ' . $nama_file, $id_ujian, null, [
+                'id_ujian'   => $id_ujian,
+                'id_pelatih' => $id_pelatih,
+                'file'       => $nama_file,
+                'jumlah'     => $sukses,
+            ]);
             set_flash("Berhasil mengimport $sukses data nilai dari " . htmlspecialchars($nama_file), 'success');
             header("Location: proses.php?id=$id_ujian");
             exit;

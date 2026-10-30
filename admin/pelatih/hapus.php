@@ -8,14 +8,18 @@ if ($role != 'admin') {
 include_once '../../includes/funtion.php';
 
 $id = (int) ($_GET['id'] ?? 0);
-$d = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT id_pelatih FROM pelatih WHERE id_pelatih=$id"));
+$d = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pelatih WHERE id_pelatih=$id"));
 if (!$d) {
     set_flash('Data pelatih tidak ditemukan', 'danger');
     header('Location: index.php');
     exit;
 }
 
-mysqli_query($koneksi, "DELETE FROM pelatih WHERE id_pelatih=$id");
-set_flash('Data pelatih berhasil dihapus!');
+if (mysqli_query($koneksi, "DELETE FROM pelatih WHERE id_pelatih=$id")) {
+    catat_log('HAPUS', 'pelatih', 'Menghapus pelatih: ' . ($d['nama_pelatih'] ?? ''), $id, $d, null);
+    set_flash('Data pelatih berhasil dihapus!');
+} else {
+    set_flash('Gagal menghapus data pelatih: ' . mysqli_error($koneksi), 'danger');
+}
 header('Location: index.php');
 exit;

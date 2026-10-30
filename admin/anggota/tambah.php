@@ -74,6 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (no_kta, nama_anggota, tempat_lahir, tanggal_lahir, tingkatan_sabuk, kontak, alamat, status)
             VALUES ('$no_kta', '$nama_anggota', '$tempat_lahir', '$tgl_lahir', '$tingkatan_sabuk', '$kontak', '$alamat', '$status')");
         if ($q) {
+            $id_baru = mysqli_insert_id($koneksi);
+            catat_log('TAMBAH', 'anggota', 'Menambah anggota: ' . $old['nama_anggota'], $id_baru, null, [
+                'no_kta'          => $old['no_kta'],
+                'nama_anggota'    => $old['nama_anggota'],
+                'tempat_lahir'    => $old['tempat_lahir'],
+                'tanggal_lahir'   => $tgl_lahir,
+                'tingkatan_sabuk' => $old['tingkatan_sabuk'],
+                'kontak'          => $old['kontak'],
+                'alamat'          => $old['alamat'],
+                'status'          => $status,
+            ]);
             set_flash('Data anggota berhasil disimpan.');
             header('Location: index.php');
             exit;

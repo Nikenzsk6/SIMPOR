@@ -82,6 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             tanggal_lahir='$tgl_lahir', tingkatan_sabuk='$tingkatan_sabuk',
             kontak='$kontak', alamat='$alamat', status='$status' WHERE id_anggota=$id");
         if ($q) {
+            catat_log('UBAH', 'anggota', 'Mengubah data anggota: ' . $old['nama_anggota'], $id, $d, [
+                'no_kta'          => $old['no_kta'],
+                'nama_anggota'    => $old['nama_anggota'],
+                'tempat_lahir'    => $old['tempat_lahir'],
+                'tanggal_lahir'   => $tgl_lahir,
+                'tingkatan_sabuk' => $old['tingkatan_sabuk'],
+                'kontak'          => $old['kontak'],
+                'alamat'          => $old['alamat'],
+                'status'          => $status,
+            ]);
             set_flash('Data anggota berhasil diubah.');
             header('Location: index.php');
             exit;

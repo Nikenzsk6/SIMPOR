@@ -63,6 +63,11 @@ if ($_POST) {
 
         if ($valid && ($d['status'] ?? 'aktif') !== 'aktif') {
             $error = 'Akun Anda tidak aktif. Silakan hubungi administrator.';
+            catat_log('LOGIN_DITOLAK', 'auth', 'Akun tidak aktif: ' . $username, $d['id_user'], null, null, [
+                'id_user'  => $d['id_user'],
+                'username' => $username,
+                'role'     => $d['role'],
+            ]);
         } elseif ($valid) {
             // Login berhasil: bersihkan penghitung, ganti ID sesi
             // (mencegah session fixation), lalu simpan identitas.
@@ -81,6 +86,8 @@ if ($_POST) {
                 mysqli_stmt_close($up);
             }
 
+            catat_log('LOGIN', 'auth', 'Login berhasil sebagai ' . $d['role'], $d['id_user']);
+
             if ($d['role'] == 'admin')
                 header('Location: admin/dashboard.php');
             else
@@ -88,10 +95,20 @@ if ($_POST) {
             exit;
         } else {
             $_SESSION['login_attempts']++;
+            catat_log('LOGIN_GAGAL', 'auth', 'Username atau password salah: ' . $username, null, null, null, [
+                'id_user'  => null,
+                'username' => $username,
+                'role'     => null,
+            ]);
             if ($_SESSION['login_attempts'] >= LOGIN_MAX_ATTEMPTS) {
                 $_SESSION['login_lock_until'] = time() + LOGIN_LOCK_SECONDS;
                 $_SESSION['login_attempts']   = 0;
                 $error = 'Terlalu banyak percobaan. Coba lagi dalam ' . LOGIN_LOCK_SECONDS . ' detik.';
+                catat_log('LOGIN_DIBLOKIR', 'auth', 'Percobaan login diblokir sementara: ' . $username, null, null, null, [
+                    'id_user'  => null,
+                    'username' => $username,
+                    'role'     => null,
+                ]);
             } else {
                 $error = 'Username atau password salah!';
             }

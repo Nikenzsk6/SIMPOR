@@ -91,13 +91,23 @@ $q_hasil = mysqli_query($koneksi, "
     WHERE dp.id_pendaftaran = $id_ujian AND h.status_kelulusan = 'LULUS'
 ");
 
+$jumlah_dikirim = 0;
 while ($h = mysqli_fetch_assoc($q_hasil)) {
     $id_hasil = $h['id_hasil'];
     $cek = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as jml FROM pengesahan WHERE id_hasil=$id_hasil"));
     if ($cek['jml'] == 0) {
         mysqli_query($koneksi, "INSERT INTO pengesahan (id_hasil, file_pdf, status, tgl_kirim) VALUES ($id_hasil, '$pdf_path', 'dikirim', NOW())");
+        if (mysqli_affected_rows($koneksi) > 0) {
+            $jumlah_dikirim++;
+        }
     }
 }
+
+catat_log('KIRIM_PENGESAHAN', 'pengesahan', 'Mengirim pengesahan hasil ujian ' . ($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']), $id_ujian, null, [
+    'id_ujian' => $id_ujian,
+    'file_pdf' => $pdf_path,
+    'jumlah'   => $jumlah_dikirim,
+]);
 
 set_flash('PDF berhasil dibuat dan dikirim ke pusat!');
 header('Location: index.php');

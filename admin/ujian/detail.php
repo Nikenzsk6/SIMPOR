@@ -15,25 +15,49 @@ if ($ujian['status'] == 'dibuka' && $ujian['tgl_tutup'] < date('Y-m-d')) {
 
 $is_open = ($ujian['status'] == 'dibuka');
 
+$nama_ujian_log = $ujian['nama_ujian'] ?: $ujian['tingkat_ujian'];
+
 if (isset($_POST['tambah_penguji'])) {
     $id_pelatih = (int)$_POST['id_pelatih'];
+    $p = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT nama_pelatih FROM pelatih WHERE id_pelatih=$id_pelatih"));
     mysqli_query($koneksi, "INSERT IGNORE INTO penguji_ujian (id_pendaftaran, id_pelatih) VALUES ($id, $id_pelatih)");
+    if (mysqli_affected_rows($koneksi) > 0) {
+        catat_log('TAMBAH_PENGUJI', 'ujian', 'Menambahkan penguji ' . ($p['nama_pelatih'] ?? '') . ' ke ujian ' . $nama_ujian_log, $id, null, [
+            'id_pelatih'   => $id_pelatih,
+            'nama_pelatih' => $p['nama_pelatih'] ?? null,
+        ]);
+    }
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
 if (isset($_GET['hapus_penguji'])) {
     $id_pelatih = (int)$_GET['hapus_penguji'];
+    $p = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT nama_pelatih FROM pelatih WHERE id_pelatih=$id_pelatih"));
     mysqli_query($koneksi, "DELETE FROM penguji_ujian WHERE id_pendaftaran=$id AND id_pelatih=$id_pelatih");
+    if (mysqli_affected_rows($koneksi) > 0) {
+        catat_log('HAPUS_PENGUJI', 'ujian', 'Menghapus penguji ' . ($p['nama_pelatih'] ?? '') . ' dari ujian ' . $nama_ujian_log, $id, [
+            'id_pelatih'   => $id_pelatih,
+            'nama_pelatih' => $p['nama_pelatih'] ?? null,
+        ], null);
+    }
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
 if (isset($_POST['tambah_peserta'])) {
     $id_anggota = (int)$_POST['id_anggota'];
+    $a = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT nama_anggota, no_kta FROM anggota WHERE id_anggota=$id_anggota"));
     $cek = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as jml FROM detail_pendaftaran WHERE id_pendaftaran=$id AND id_anggota=$id_anggota"));
     if ($cek['jml'] == 0) {
         mysqli_query($koneksi, "INSERT INTO detail_pendaftaran (id_pendaftaran, id_anggota) VALUES ($id, $id_anggota)");
+        if (mysqli_affected_rows($koneksi) > 0) {
+            catat_log('TAMBAH_PESERTA', 'ujian', 'Mendaftarkan peserta ' . ($a['nama_anggota'] ?? '') . ' ke ujian ' . $nama_ujian_log, $id, null, [
+                'id_anggota'   => $id_anggota,
+                'no_kta'       => $a['no_kta'] ?? null,
+                'nama_anggota' => $a['nama_anggota'] ?? null,
+            ]);
+        }
     }
     header('Location: detail.php?id=' . $id);
     exit;
@@ -41,16 +65,43 @@ if (isset($_POST['tambah_peserta'])) {
 
 if (isset($_GET['hapus_peserta'])) {
     $id_detail = (int)$_GET['hapus_peserta'];
+    $ps = mysqli_fetch_assoc(mysqli_query($koneksi, "
+        SELECT dp.id_detail, a.id_anggota, a.no_kta, a.nama_anggota
+        FROM detail_pendaftaran dp
+        JOIN anggota a ON dp.id_anggota = a.id_anggota
+        WHERE dp.id_detail=$id_detail AND dp.id_pendaftaran=$id
+    "));
     mysqli_query($koneksi, "DELETE FROM detail_pendaftaran WHERE id_detail=$id_detail AND id_pendaftaran=$id");
+    if (mysqli_affected_rows($koneksi) > 0 && $ps) {
+        catat_log('HAPUS_PESERTA', 'ujian', 'Menghapus peserta ' . $ps['nama_anggota'] . ' dari ujian ' . $nama_ujian_log, $id, $ps, null);
+    }
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
 if (isset($_GET['bayar'])) {
     $id_detail = (int)$_GET['bayar'];
-    $dp = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT status_pembayaran FROM detail_pendaftaran WHERE id_detail=$id_detail AND id_pendaftaran=$id"));
+    $dp = mysqli_fetch_assoc(mysqli_query($koneksi, "
+        SELECT dp.status_pembayaran, a.no_kta, a.nama_anggota
+        FROM detail_pendaftaran dp
+        JOIN anggota a ON dp.id_anggota = a.id_anggota
+        WHERE dp.id_detail=$id_detail AND dp.id_pendaftaran=$id
+    "));
     $new_status = ($dp['status_pembayaran'] == 'lunas') ? 'belum' : 'lunas';
     mysqli_query($koneksi, "UPDATE detail_pendaftaran SET status_pembayaran='$new_status' WHERE id_detail=$id_detail");
+    if (mysqli_affected_rows($koneksi) > 0 && $dp) {
+        catat_log('UBAH_PEMBAYARAN', 'ujian', 'Mengubah pembayaran ' . $dp['nama_anggota'] . ' (' . $dp['no_kta'] . ') menjadi ' . $new_status . ' pada ujian ' . $nama_ujian_log, $id, [
+            'id_detail'         => $id_detail,
+            'no_kta'            => $dp['no_kta'],
+            'nama_anggota'      => $dp['nama_anggota'],
+            'status_pembayaran' => $dp['status_pembayaran'],
+        ], [
+            'id_detail'         => $id_detail,
+            'no_kta'            => $dp['no_kta'],
+            'nama_anggota'      => $dp['nama_anggota'],
+            'status_pembayaran' => $new_status,
+        ]);
+    }
     header('Location: detail.php?id=' . $id);
     exit;
 }

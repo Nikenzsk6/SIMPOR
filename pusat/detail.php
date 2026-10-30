@@ -30,6 +30,13 @@ if (isset($_GET['terima'])) {
         SET ps.status='diterima_pusat', ps.tgl_diterima=NOW()
         WHERE dp.id_pendaftaran=$id_ujian AND ps.status='dikirim'
     ");
+    catat_log('TERIMA_PENGESAHAN', 'pengesahan', 'Menerima pengesahan hasil ujian ' . ($ps['nama_ujian'] ?: $ps['tingkat_ujian']), $id_ujian, [
+        'id_pengesahan' => $id,
+        'status'        => 'dikirim',
+    ], [
+        'id_pengesahan' => $id,
+        'status'        => 'diterima_pusat',
+    ]);
     set_flash('Pengesahan diterima. Silakan periksa lalu setujui atau tolak.');
     header('Location: detail.php?id=' . $id);
     exit;
@@ -54,6 +61,7 @@ if (isset($_GET['setujui'])) {
         WHERE dp.id_pendaftaran = $id_ujian AND h.status_kelulusan = 'LULUS'
     ");
 
+    $peserta_upgrade = [];
     while ($l = mysqli_fetch_assoc($q_lulus)) {
         // Parse target belt from tingkat_ujian (e.g., "Prapta ke Kawi")
         $parts = explode(' ke ', $l['tingkat_ujian']);
@@ -63,6 +71,13 @@ if (isset($_GET['setujui'])) {
         $status_baru = auto_status_sabuk($sabuk_baru);
         $sabuk_esc = mysqli_real_escape_string($koneksi, $sabuk_baru);
         mysqli_query($koneksi, "UPDATE anggota SET tingkatan_sabuk='$sabuk_esc', status='$status_baru' WHERE id_anggota={$l['id_anggota']}");
+
+        $peserta_upgrade[] = [
+            'id_anggota'      => (int) $l['id_anggota'],
+            'sabuk_lama'      => $l['tingkatan_sabuk'],
+            'sabuk_baru'      => $sabuk_baru,
+            'status_anggota'  => $status_baru,
+        ];
     }
 
     $id_pusat = (int) $data_user['id_user'];
@@ -73,6 +88,15 @@ if (isset($_GET['setujui'])) {
         SET ps.status='disetujui', ps.tgl_disetujui=NOW(), ps.id_user_pusat=$id_pusat
         WHERE dp.id_pendaftaran=$id_ujian
     ");
+    catat_log('SETUJUI_PENGESAHAN', 'pengesahan', 'Menyetujui pengesahan hasil ujian ' . ($ps['nama_ujian'] ?: $ps['tingkat_ujian']), $id_ujian, [
+        'id_pengesahan' => $id,
+        'status'        => 'diterima_pusat',
+    ], [
+        'id_pengesahan' => $id,
+        'status'        => 'disetujui',
+        'id_user_pusat' => $id_pusat,
+        'peserta'       => $peserta_upgrade,
+    ]);
     set_flash('Pengesahan disetujui! Sabuk peserta lulus otomatis ter-upgrade.');
     header('Location: detail.php?id=' . $id);
     exit;
@@ -95,6 +119,15 @@ if ($_POST && isset($_POST['tolak'])) {
         SET ps.status='ditolak', ps.tgl_disetujui=NOW(), ps.id_user_pusat=$id_pusat, ps.catatan='$catatan'
         WHERE dp.id_pendaftaran=$id_ujian
     ");
+    catat_log('TOLAK_PENGESAHAN', 'pengesahan', 'Menolak pengesahan hasil ujian ' . ($ps['nama_ujian'] ?: $ps['tingkat_ujian']), $id_ujian, [
+        'id_pengesahan' => $id,
+        'status'        => 'diterima_pusat',
+    ], [
+        'id_pengesahan' => $id,
+        'status'        => 'ditolak',
+        'id_user_pusat' => $id_pusat,
+        'catatan'       => trim((string) ($_POST['catatan'] ?? '')),
+    ]);
     set_flash('Pengesahan ditolak.', 'danger');
     header('Location: detail.php?id=' . $id);
     exit;

@@ -54,6 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($q) {
+                catat_log('UBAH_PROFIL', 'profil', 'Mengubah profil pusat', $id > 0 ? $id : null, $profil ?: null, [
+                    'nama_organisasi' => $old['nama_organisasi'],
+                    'singkatan'       => $old['singkatan'],
+                    'alamat'          => $old['alamat'],
+                    'kontak'          => $old['kontak'],
+                    'logo'            => $logo,
+                    'deskripsi'       => $old['deskripsi'],
+                ]);
                 set_flash('Profil pusat berhasil disimpan!');
                 header('Location: index.php');
                 exit;

@@ -72,4 +72,39 @@ mysqli_query($koneksi, "UPDATE user SET status='aktif' WHERE status IS NULL OR s
 // Isi nama_ujian untuk data ujian lama agar kolom baru tidak kosong
 mysqli_query($koneksi, "UPDATE pendaftaran_ujian SET nama_ujian = CONCAT('Ujian ', tingkat_ujian) WHERE nama_ujian IS NULL OR nama_ujian = ''");
 
-echo "\nSelesai: $berhasil kolom ditambahkan, $dilewati dilewati.\n";
+// Tabel log aktivitas: hanya untuk pelacakan di database, tidak tampil di aplikasi
+$cek_log = mysqli_query($koneksi, "SHOW TABLES LIKE 'log_aktivitas'");
+if ($cek_log && mysqli_num_rows($cek_log) > 0) {
+    echo "LEWATI  tabel log_aktivitas (sudah ada)\n";
+    $dilewati++;
+} else {
+    $sql_log = "CREATE TABLE `log_aktivitas` (
+        `id_log` bigint unsigned NOT NULL AUTO_INCREMENT,
+        `id_user` int DEFAULT NULL,
+        `username` varchar(50) DEFAULT NULL,
+        `role` varchar(20) DEFAULT NULL,
+        `aksi` varchar(50) NOT NULL,
+        `modul` varchar(50) NOT NULL,
+        `id_referensi` varchar(50) DEFAULT NULL,
+        `deskripsi` text,
+        `data_lama` longtext,
+        `data_baru` longtext,
+        `ip_address` varchar(45) DEFAULT NULL,
+        `user_agent` varchar(255) DEFAULT NULL,
+        `waktu` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`id_log`),
+        KEY `idx_log_user` (`id_user`),
+        KEY `idx_log_modul` (`modul`),
+        KEY `idx_log_aksi` (`aksi`),
+        KEY `idx_log_waktu` (`waktu`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+
+    if (mysqli_query($koneksi, $sql_log)) {
+        echo "OK      tabel log_aktivitas dibuat\n";
+        $berhasil++;
+    } else {
+        echo "GAGAL   tabel log_aktivitas: " . mysqli_error($koneksi) . "\n";
+    }
+}
+
+echo "\nSelesai: $berhasil perubahan ditambahkan, $dilewati dilewati.\n";

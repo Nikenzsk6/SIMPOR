@@ -60,6 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $q = mysqli_query($koneksi, "INSERT INTO user (nama_user, kontak, username, password, role, status)
             VALUES ('$nama', '$kontak', '$username', '$password', 'pusat', '$status')");
         if ($q) {
+            $id_baru = mysqli_insert_id($koneksi);
+            catat_log('TAMBAH', 'user', 'Menambah user pusat: ' . $old['username'], $id_baru, null, [
+                'nama_user' => $old['nama_user'],
+                'username'  => $old['username'],
+                'kontak'    => $old['kontak'],
+                'role'      => 'pusat',
+                'status'    => $status,
+            ]);
             set_flash('User pusat berhasil ditambahkan!');
             header('Location: index.php');
             exit;
