@@ -5,6 +5,12 @@ require_once '../../vendor/autoload.php';
 
 use Dompdf\Dompdf;
 
+if ($role !== 'admin') {
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'pusat' ? 'pusat/dashboard.php' : 'login.php'));
+    exit;
+}
+
 $id_ujian = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $html = '<html><head><meta charset="UTF-8"><style>
@@ -22,8 +28,12 @@ $html = '<html><head><meta charset="UTF-8"><style>
 
 if ($id_ujian > 0) {
     $ujian = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pendaftaran_ujian WHERE id_pendaftaran=$id_ujian"));
+    if (!$ujian) {
+        http_response_code(404);
+        exit('Data ujian tidak ditemukan.');
+    }
     $html .= '<h2>LAPORAN HASIL UJIAN KENAIKAN SABUK</h2>';
-    $html .= '<div class="sub">Tingkat: ' . $ujian['tingkat_ujian'] . ' | Tanggal: ' . tgl_indonesia($ujian['tgl_ujian']) . '</div>';
+    $html .= '<div class="sub">' . htmlspecialchars($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']) . ' | Tingkat: ' . htmlspecialchars($ujian['tingkat_ujian']) . ' | Tanggal: ' . tgl_indonesia($ujian['tgl_ujian']) . '</div>';
     $html .= '<table><tr><th>No</th><th>No KTA</th><th>Nama</th><th>Sabuk</th><th>Nilai</th><th>Status</th></tr>';
 
     $q = mysqli_query($koneksi, "

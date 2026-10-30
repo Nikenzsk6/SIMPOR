@@ -1,6 +1,7 @@
 <?php require_once __DIR__ . '/session.php';
 if ($role != 'pusat') {
-    header('Location: ' . BASE_URL . 'login.php');
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'admin' ? 'admin/dashboard.php' : 'login.php'));
     exit;
 }
 $menu_path = $_SERVER['PHP_SELF'];
@@ -34,7 +35,7 @@ $menu_path = $_SERVER['PHP_SELF'];
                             <i class="bi bi-person-circle"></i> <?= htmlspecialchars($data_user['nama_user']) ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-<li><a class="dropdown-item" href="<?= BASE_URL ?>logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -61,3 +62,4 @@ $menu_path = $_SERVER['PHP_SELF'];
                 </ul>
             </div>
             <div class="col-md-10 p-4">
+                <?= flash() ?>

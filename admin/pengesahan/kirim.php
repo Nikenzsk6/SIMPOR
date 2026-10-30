@@ -1,12 +1,31 @@
 <?php
 include_once '../../includes/session.php';
 include_once '../../includes/funtion.php';
-$id_ujian = (int)$_GET['id'];
+
+if ($role !== 'admin') {
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'pusat' ? 'pusat/dashboard.php' : 'login.php'));
+    exit;
+}
+
+$id_ujian = (int) ($_GET['id'] ?? 0);
 
 $ujian = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pendaftaran_ujian WHERE id_pendaftaran=$id_ujian"));
 if (!$ujian) {
     set_flash('Data tidak ditemukan', 'danger');
     header('Location: index.php');
+    exit;
+}
+
+// Pastikan ada peserta lulus sebelum mengirim
+$ada_lulus = mysqli_fetch_assoc(mysqli_query($koneksi, "
+    SELECT COUNT(*) AS jml FROM hasil_ujian h
+    JOIN detail_pendaftaran dp ON h.id_detail = dp.id_detail
+    WHERE dp.id_pendaftaran=$id_ujian AND h.status_kelulusan='LULUS'
+"));
+if (!$ada_lulus || $ada_lulus['jml'] == 0) {
+    set_flash('Belum ada peserta LULUS pada ujian ini. Pengesahan tidak dapat dikirim.', 'danger');
+    header('Location: ../penilaian/hasil.php?id=' . $id_ujian);
     exit;
 }
 
@@ -28,7 +47,8 @@ $html = '<html><head><meta charset="UTF-8"><style>
 </style></head><body>
 <h2>HASIL UJIAN KENAIKAN SABUK</h2>
 <p>' . htmlspecialchars($nama_cabang) . '</p>
-<p>Tingkat Ujian: <strong>' . $ujian['tingkat_ujian'] . '</strong><br>
+<p>Tingkat Ujian: <strong>' . htmlspecialchars($ujian['tingkat_ujian']) . '</strong><br>
+Nama Ujian: ' . htmlspecialchars($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']) . '<br>
 Tanggal Ujian: ' . tgl_indonesia($ujian['tgl_ujian']) . '</p>
 <table>
 <tr><th>No</th><th>No KTA</th><th>Nama</th><th>Sabuk Awal</th><th>Nilai Akhir</th><th>Status</th></tr>';
@@ -58,6 +78,10 @@ $dompdf->render();
 
 $pdf_name = 'hasil_ujian_' . $id_ujian . '_' . time() . '.pdf';
 $pdf_path = 'uploads/pdf/' . $pdf_name;
+$dir_pdf = __DIR__ . '/../../uploads/pdf';
+if (!is_dir($dir_pdf)) {
+    mkdir($dir_pdf, 0775, true);
+}
 file_put_contents(__DIR__ . '/../../' . $pdf_path, $dompdf->output());
 
 // Create pengesahan record for each lulus result

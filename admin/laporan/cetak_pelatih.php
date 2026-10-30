@@ -5,6 +5,12 @@ require_once '../../vendor/autoload.php';
 
 use Dompdf\Dompdf;
 
+if ($role !== 'admin') {
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'pusat' ? 'pusat/dashboard.php' : 'login.php'));
+    exit;
+}
+
 $html = '<html><head><meta charset="UTF-8"><style>
     body { font-family: DejaVu Sans, sans-serif; font-size: 11px; }
     h2 { text-align: center; color: #8C1616; }

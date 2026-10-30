@@ -7,11 +7,23 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-$id_ujian = (int)$_GET['id'];
-$id_pelatih = (int)$_GET['pelatih'];
+if ($role !== 'admin') {
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'pusat' ? 'pusat/dashboard.php' : 'login.php'));
+    exit;
+}
+
+$id_ujian = (int) ($_GET['id'] ?? 0);
+$id_pelatih = (int) ($_GET['pelatih'] ?? 0);
 
 $ujian = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pendaftaran_ujian WHERE id_pendaftaran=$id_ujian"));
 $pelatih = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pelatih WHERE id_pelatih=$id_pelatih"));
+$cek_penguji = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) AS jml FROM penguji_ujian WHERE id_pendaftaran=$id_ujian AND id_pelatih=$id_pelatih"));
+
+if (!$ujian || !$pelatih || !$cek_penguji || $cek_penguji['jml'] == 0) {
+    http_response_code(404);
+    exit('Data penguji/ujian tidak ditemukan.');
+}
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
@@ -21,8 +33,7 @@ $sheet->mergeCells('A1:H1');
 $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
 $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-$sheet->setCellValue('A2', 'Tingkat Ujian: ' . $ujian['tingkat_ujian']);
-$sheet->mergeCells('A2:H2');
+$sheet->setCellValue('A2', 'Tingkat Ujian: ' . $ujian['tingkat_ujian']);$sheet->mergeCells('A2:H2');
 $sheet->setCellValue('A3', 'Penguji: ' . $pelatih['nama_pelatih'] . ' (' . $pelatih['tingkatan_sabuk'] . ')');
 $sheet->mergeCells('A3:H3');
 

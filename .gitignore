@@ -1,5 +1,5 @@
 # =============================================
-#  GITIGNORE — SIMPOR
+#  GITIGNORE - SIMPOR
 #  File ini di folder paling atas (sejajar index.php)
 # =============================================
 
@@ -58,3 +58,8 @@ npm-debug.log*
 /database/
 /dump/
 _dump/
+
+# --- Dokumen internal (RTM tugas, dsb.) ----------
+# Dokumen internal tidak perlu ikut ke repositori publik.
+/RTM*.xlsx
+/_rtm_dump*.txt

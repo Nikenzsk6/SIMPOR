@@ -151,7 +151,7 @@ sungguhan:
 
 ## 6. Catatan tentang data demo
 
-`docs/seed-contoh.sql` memakai nomor KTA berawalan `KTA-C` dan KTP `KTP-C`,
-dengan nama serta kontak fiktif. Data ini hanya untuk mengisi grafik
-dashboard saat presentasi dan bisa dihapus dengan
-`docs/CARA-HAPUS-DATA-CONTOH.sql`.
+`docs/seed-contoh.sql` memakai nomor KTA contoh 14 digit berawalan
+`2025000000` (anggota) dan `2024000000` (pelatih), dengan nama serta kontak
+fiktif. Data ini hanya untuk mengisi grafik dashboard saat presentasi dan
+bisa dihapus dengan `docs/CARA-HAPUS-DATA-CONTOH.sql`.

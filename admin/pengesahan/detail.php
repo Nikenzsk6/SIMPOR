@@ -2,8 +2,8 @@
 <?php
 $id = (int)$_GET['id'];
 $p = mysqli_fetch_assoc(mysqli_query($koneksi, "
-    SELECT ps.*, h.status_kelulusan, h.rata_rata_nilai, h.id_detail, 
-           dp.id_pendaftaran, pu.tingkat_ujian, pu.tgl_ujian, pu.tgl_buka, pu.tgl_tutup
+    SELECT ps.*, h.status_kelulusan, h.rata_rata_nilai, h.id_detail,
+           dp.id_pendaftaran, pu.nama_ujian, pu.tingkat_ujian, pu.tgl_ujian, pu.tgl_buka, pu.tgl_tutup
     FROM pengesahan ps
     JOIN hasil_ujian h ON ps.id_hasil = h.id_hasil
     JOIN detail_pendaftaran dp ON h.id_detail = dp.id_detail
@@ -42,6 +42,7 @@ $q_penguji = mysqli_query($koneksi, "
     <div class="card border-0 bg-gading p-4 mb-4">
         <div class="row">
             <div class="col-md-6">
+                <p><strong>Ujian:</strong> <?= htmlspecialchars($p['nama_ujian'] ?: $p['tingkat_ujian']) ?></p>
                 <p><strong>Tingkat Ujian:</strong> <?= htmlspecialchars($p['tingkat_ujian']) ?></p>
                 <p><strong>Tanggal Ujian:</strong> <?= tgl_indonesia($p['tgl_ujian']) ?></p>
                 <p><strong>Periode Pendaftaran:</strong> <?= tgl_indonesia($p['tgl_buka']) ?> s.d. <?= tgl_indonesia($p['tgl_tutup']) ?></p>
@@ -63,10 +64,15 @@ $q_penguji = mysqli_query($koneksi, "
     </div>
 
     <?php if ($p['file_pdf']): ?>
+        <?php $file_pdf_ada = is_file(dirname(__DIR__, 2) . '/' . ltrim($p['file_pdf'], '/')); ?>
         <div class="mb-3">
             <strong>Lampiran PDF:</strong>
-            <a href="<?= BASE_URL . $p['file_pdf'] ?>" class="btn btn-sm btn-info" target="_blank"><i class="bi bi-file-pdf"></i> Lihat PDF</a>
-            <a href="<?= BASE_URL . $p['file_pdf'] ?>" class="btn btn-sm btn-outline-info" download><i class="bi bi-download"></i> Download</a>
+            <?php if ($file_pdf_ada): ?>
+                <a href="<?= BASE_URL . htmlspecialchars($p['file_pdf']) ?>" class="btn btn-sm btn-info" target="_blank"><i class="bi bi-file-pdf"></i> Lihat PDF</a>
+                <a href="<?= BASE_URL . htmlspecialchars($p['file_pdf']) ?>" class="btn btn-sm btn-outline-info" download><i class="bi bi-download"></i> Download</a>
+            <?php else: ?>
+                <span class="text-muted"><i class="bi bi-exclamation-circle"></i> File PDF tidak tersedia (data contoh).</span>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 

@@ -23,6 +23,7 @@ $total = $q ? mysqli_num_rows($q) : 0;
         <thead>
             <tr>
                 <th style="width:56px">No</th>
+                <th>Nama Ujian</th>
                 <th>Tingkat Ujian</th>
                 <th>Tgl Buka</th>
                 <th>Tgl Tutup</th>
@@ -35,7 +36,7 @@ $total = $q ? mysqli_num_rows($q) : 0;
             <?php
             if ($total == 0): ?>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="8">
                         <div class="empty-state">
                             <i class="bi bi-inbox"></i>
                             <span>Belum ada ujian yang terdaftar</span>
@@ -48,6 +49,7 @@ $total = $q ? mysqli_num_rows($q) : 0;
             ?>
                 <tr>
                     <td><?= $no++ ?></td>
+                    <td><?= htmlspecialchars($d['nama_ujian'] ?: $d['tingkat_ujian']) ?></td>
                     <td><?= htmlspecialchars($d['tingkat_ujian']) ?></td>
                     <td><?= tgl_indonesia($d['tgl_buka']) ?></td>
                     <td><?= tgl_indonesia($d['tgl_tutup']) ?></td>

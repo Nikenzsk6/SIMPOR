@@ -24,6 +24,7 @@ $total = $q ? mysqli_num_rows($q) : 0;
                 <th>Username</th>
                 <th>Kontak</th>
                 <th>Tipe Pengguna</th>
+                <th>Status</th>
                 <th class="text-end" style="width:96px">Aksi</th>
             </tr>
         </thead>
@@ -31,7 +32,7 @@ $total = $q ? mysqli_num_rows($q) : 0;
             <?php
             if ($total == 0): ?>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="empty-state">
                             <i class="bi bi-person-x"></i>
                             <span>Belum ada user admin</span>
@@ -48,6 +49,13 @@ $total = $q ? mysqli_num_rows($q) : 0;
                     <td><?= htmlspecialchars($d['username']) ?></td>
                     <td><?= htmlspecialchars($d['kontak'] ?? '-') ?></td>
                     <td><span class="badge bg-info">Admin Cabang</span></td>
+                    <td>
+                        <?php if (($d['status'] ?? 'aktif') === 'aktif'): ?>
+                            <span class="badge bg-success">Aktif</span>
+                        <?php else: ?>
+                            <span class="badge bg-secondary">Tidak Aktif</span>
+                        <?php endif; ?>
+                    </td>
                     <td class="text-end text-nowrap">
                         <a href="edit.php?id=<?= $d['id_user'] ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil"></i></a>
                         <a href="hapus.php?id=<?= $d['id_user'] ?>" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Hapus user <?= htmlspecialchars($d['nama_user']) ?>?')"><i class="bi bi-trash"></i></a>

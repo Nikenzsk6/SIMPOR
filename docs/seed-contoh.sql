@@ -37,51 +37,51 @@ SET @u_akhir := (SELECT COALESCE(MAX(id_pendaftaran), 0) FROM pendaftaran_ujian)
 --     auto_status_sabuk() saat bulk insert. Nilai yang sama akan dihasilkan
 --     fungsi itu: 'Gladi Gatra'..'Wira Tama' = warga, selain itu non-warga.
 -- ---------------------------------------------------------------------
-INSERT INTO anggota (no_kta, nama_anggota, tingkatan_sabuk, kontak, alamat, status) VALUES
-('KTA-C001', 'Ahmad Fauzi',        'Gladi Gatra', '0812-1001-0001', 'Jl. Melati No.1',   'warga'),
-('KTA-C002', 'Bunga Lestari',      'Gladi Gatra', '0812-1001-0002', 'Jl. Kenanga No.2',  'warga'),
-('KTA-C003', 'Candra Wijaya',      'Gladi Taruna','0812-1001-0003', 'Jl. Mawar No.3',    'warga'),
-('KTA-C004', 'Dewi Anggraini',     'Gladi Taruna','0812-1001-0004', 'Jl. Melur No.4',    'warga'),
-('KTA-C005', 'Eko Prasetyo',       'Gladi Satya', '0812-1001-0005', 'Jl. Anggrek No.5',  'warga'),
-('KTA-C006', 'Fitri Handayani',    'Gladi Satya', '0812-1001-0006', 'Jl. Dahlia No.6',   'warga'),
-('KTA-C007', 'Gilang Ramadhan',    'Gladi Satya', '0812-1001-0007', 'Jl. Teratai No.7',  'warga'),
-('KTA-C008', 'Hana Kusuma',        'Wira Tama',   '0812-1001-0008', 'Jl. Flamboyan No.8','warga'),
-('KTA-C009', 'Indra Saputra',      'Wira Tama',   '0812-1001-0009', 'Jl. Kamboja No.9',  'warga'),
-('KTA-C010', 'Jihan Nuraini',      'Wira Tama',   '0812-1001-0010', 'Jl. Bougain No.10', 'warga'),
-('KTA-C011', 'Krisna Bayu',        'Wira Tama',   '0812-1001-0011', 'Jl. Kamboja No.11', 'warga'),
-('KTA-C012', 'Lina Marlina',       'Wira Tama',   '0812-1001-0012', 'Jl. Anthurium No.12','warga'),
-('KTA-C013', 'Miko Ramadhan',       'Wira Tama',   '0812-1001-0013', 'Jl. Mawar No.13',   'warga'),
-('KTA-C014', 'Nadia Puspita',      'Prapta',      '0812-1001-0014', 'Jl. Melati No.14',  'non-warga'),
-('KTA-C015', 'Oscar Ferdinand',    'Kawi',        '0812-1001-0015', 'Jl. Kenanga No.15', 'non-warga'),
-('KTA-C016', 'Putri Ayu',          'Gladi Gatra', '0812-1001-0016', 'Jl. Mawar No.16',   'warga'),
-('KTA-C017', 'Rizky Aditya',       'Gladi Taruna','0812-1001-0017', 'Jl. Melur No.17',   'warga'),
-('KTA-C018', 'Sari Wulandari',     'Gladi Satya', '0812-1001-0018', 'Jl. Anggrek No.18', 'warga'),
-('KTA-C019', 'Taufik Hidayat',     'Gladi Satya', '0812-1001-0019', 'Jl. Dahlia No.19',  'warga'),
-('KTA-C020', 'Umar Maulana',       'Gladi Satya', '0812-1001-0020', 'Jl. Teratai No.20', 'warga'),
-('KTA-C021', 'Vina Oktaviani',     'Gladi Satya', '0812-1001-0021', 'Jl. Flamboyan No.21','warga'),
-('KTA-C022', 'Wawan Setiawan',     'Gladi Satya', '0812-1001-0022', 'Jl. Kamboja No.22', 'warga'),
-('KTA-C023', 'Yuni Shara',         'Wira Tama',   '0812-1001-0023', 'Jl. Bougain No.23', 'warga'),
-('KTA-C024', 'Zaki Pratama',       'Wira Tama',   '0812-1001-0024', 'Jl. Anthurium No.24','warga'),
-('KTA-C025', 'Andika Wijaya',      'Wira Tama',   '0812-1001-0025', 'Jl. Mawar No.25',   'warga'),
-('KTA-C026', 'Bella Safitri',      'Wira Tama',   '0812-1001-0026', 'Jl. Melati No.26',  'warga'),
-('KTA-C027', 'Cahyo Nugroho',      'Wira Tama',   '0812-1001-0027', 'Jl. Kenanga No.27', 'warga'),
-('KTA-C028', 'Dinda Larasati',     'Wira Tama',   '0812-1001-0028', 'Jl. Mawar No.28',   'warga');
+INSERT INTO anggota (no_kta, nama_anggota, tempat_lahir, tanggal_lahir, tingkatan_sabuk, kontak, alamat, status) VALUES
+('20250000000001', 'Ahmad Fauzi',        'Bandung', '2000-01-01', 'Gladi Gatra', '081210010001', 'Jl. Melati No.1',   'warga'),
+('20250000000002', 'Bunga Lestari',      'Bandung', '2000-01-01', 'Gladi Gatra', '081210010002', 'Jl. Kenanga No.2',  'warga'),
+('20250000000003', 'Candra Wijaya',      'Bandung', '2000-01-01', 'Gladi Taruna','081210010003', 'Jl. Mawar No.3',    'warga'),
+('20250000000004', 'Dewi Anggraini',     'Bandung', '2000-01-01', 'Gladi Taruna','081210010004', 'Jl. Melur No.4',    'warga'),
+('20250000000005', 'Eko Prasetyo',       'Bandung', '2000-01-01', 'Gladi Satya', '081210010005', 'Jl. Anggrek No.5',  'warga'),
+('20250000000006', 'Fitri Handayani',    'Bandung', '2000-01-01', 'Gladi Satya', '081210010006', 'Jl. Dahlia No.6',   'warga'),
+('20250000000007', 'Gilang Ramadhan',    'Bandung', '2000-01-01', 'Gladi Satya', '081210010007', 'Jl. Teratai No.7',  'warga'),
+('20250000000008', 'Hana Kusuma',        'Bandung', '2000-01-01', 'Wira Tama',   '081210010008', 'Jl. Flamboyan No.8','warga'),
+('20250000000009', 'Indra Saputra',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010009', 'Jl. Kamboja No.9',  'warga'),
+('20250000000010', 'Jihan Nuraini',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010010', 'Jl. Bougain No.10', 'warga'),
+('20250000000011', 'Krisna Bayu',        'Bandung', '2000-01-01', 'Wira Tama',   '081210010011', 'Jl. Kamboja No.11', 'warga'),
+('20250000000012', 'Lina Marlina',       'Bandung', '2000-01-01', 'Wira Tama',   '081210010012', 'Jl. Anthurium No.12','warga'),
+('20250000000013', 'Miko Ramadhan',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010013', 'Jl. Mawar No.13',   'warga'),
+('20250000000014', 'Nadia Puspita',      'Bandung', '2000-01-01', 'Prapta',      '081210010014', 'Jl. Melati No.14',  'non-warga'),
+('20250000000015', 'Oscar Ferdinand',    'Bandung', '2000-01-01', 'Kawi',        '081210010015', 'Jl. Kenanga No.15', 'non-warga'),
+('20250000000016', 'Putri Ayu',          'Bandung', '2000-01-01', 'Gladi Gatra', '081210010016', 'Jl. Mawar No.16',   'warga'),
+('20250000000017', 'Rizky Aditya',       'Bandung', '2000-01-01', 'Gladi Taruna','081210010017', 'Jl. Melur No.17',   'warga'),
+('20250000000018', 'Sari Wulandari',     'Bandung', '2000-01-01', 'Gladi Satya', '081210010018', 'Jl. Anggrek No.18', 'warga'),
+('20250000000019', 'Taufik Hidayat',     'Bandung', '2000-01-01', 'Gladi Satya', '081210010019', 'Jl. Dahlia No.19',  'warga'),
+('20250000000020', 'Umar Maulana',       'Bandung', '2000-01-01', 'Gladi Satya', '081210010020', 'Jl. Teratai No.20', 'warga'),
+('20250000000021', 'Vina Oktaviani',     'Bandung', '2000-01-01', 'Gladi Satya', '081210010021', 'Jl. Flamboyan No.21','warga'),
+('20250000000022', 'Wawan Setiawan',     'Bandung', '2000-01-01', 'Gladi Satya', '081210010022', 'Jl. Kamboja No.22', 'warga'),
+('20250000000023', 'Yuni Shara',         'Bandung', '2000-01-01', 'Wira Tama',   '081210010023', 'Jl. Bougain No.23', 'warga'),
+('20250000000024', 'Zaki Pratama',       'Bandung', '2000-01-01', 'Wira Tama',   '081210010024', 'Jl. Anthurium No.24','warga'),
+('20250000000025', 'Andika Wijaya',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010025', 'Jl. Mawar No.25',   'warga'),
+('20250000000026', 'Bella Safitri',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010026', 'Jl. Melati No.26',  'warga'),
+('20250000000027', 'Cahyo Nugroho',      'Bandung', '2000-01-01', 'Wira Tama',   '081210010027', 'Jl. Kenanga No.27', 'warga'),
+('20250000000028', 'Dinda Larasati',     'Bandung', '2000-01-01', 'Wira Tama',   '081210010028', 'Jl. Mawar No.28',   'warga');
 
 -- ---------------------------------------------------------------------
 --  2. PELATIH — 9 pelatih contoh
 --     Sama seperti anggota: tingkatan_sabuk harus salah satu dari
 --     Prapta, Kawi, Gladi Gatra, Gladi Taruna, Gladi Satya, Wira Tama
 -- ---------------------------------------------------------------------
-INSERT INTO pelatih (no_kta, nama_pelatih, tingkatan_sabuk, kontak, alamat, path_sertifikat) VALUES
-('KTP-C001', 'Gunawan Saputra', 'Wira Tama',   '0813-2001-0001', 'Jl. Pahlawan No.1',       ''),
-('KTP-C002', 'Hesti Rahmawati', 'Wira Tama',   '0813-2001-0002', 'Jl. Merdeka No.2',        ''),
-('KTP-C003', 'Iwan Setiawan',   'Gladi Satya', '0813-2001-0003', 'Jl. Kemdikbud No.3',      ''),
-('KTP-C004', 'Joko Santoso',    'Gladi Satya', '0813-2001-0004', 'Jl. Sudirman No.4',       ''),
-('KTP-C005', 'Kartika Sari',    'Gladi Satya', '0813-2001-0005', 'Jl. Diponegoro No.5',    ''),
-('KTP-C006', 'Lukman Hakim',    'Gladi Satya', '0813-2001-0006', 'Jl. Gajah Mada No.6',     ''),
-('KTP-C007', 'Martha Sari',     'Gladi Satya', '0813-2001-0007', 'Jl. Ahmad Yani No.7',     ''),
-('KTP-C008', 'Nanda Putra',     'Gladi Satya', '0813-2001-0008', 'Jl. Cut Nyak Dien No.8', ''),
-('KTP-C009', 'Oktavia Rahma',   'Gladi Satya', '0813-2001-0009', 'Jl. Rajawali No.9',       '');
+INSERT INTO pelatih (no_kta, nama_pelatih, tempat_lahir, tanggal_lahir, jenis_kelamin, tingkatan_sabuk, kontak, alamat, path_sertifikat) VALUES
+('20240000000001', 'Gunawan Saputra', 'Bandung', '1985-01-01', 'Laki-laki', 'Wira Tama',   '081320010001', 'Jl. Pahlawan No.1',       ''),
+('20240000000002', 'Hesti Rahmawati', 'Bandung', '1985-01-01', 'Perempuan', 'Wira Tama',   '081320010002', 'Jl. Merdeka No.2',        ''),
+('20240000000003', 'Iwan Setiawan',   'Bandung', '1985-01-01', 'Laki-laki', 'Gladi Satya', '081320010003', 'Jl. Kemdikbud No.3',      ''),
+('20240000000004', 'Joko Santoso',    'Bandung', '1985-01-01', 'Laki-laki', 'Gladi Satya', '081320010004', 'Jl. Sudirman No.4',       ''),
+('20240000000005', 'Kartika Sari',    'Bandung', '1985-01-01', 'Perempuan', 'Gladi Satya', '081320010005', 'Jl. Diponegoro No.5',    ''),
+('20240000000006', 'Lukman Hakim',    'Bandung', '1985-01-01', 'Laki-laki', 'Gladi Satya', '081320010006', 'Jl. Gajah Mada No.6',     ''),
+('20240000000007', 'Martha Sari',     'Bandung', '1985-01-01', 'Perempuan', 'Gladi Satya', '081320010007', 'Jl. Ahmad Yani No.7',     ''),
+('20240000000008', 'Nanda Putra',     'Bandung', '1985-01-01', 'Laki-laki', 'Gladi Satya', '081320010008', 'Jl. Cut Nyak Dien No.8', ''),
+('20240000000009', 'Oktavia Rahma',   'Bandung', '1985-01-01', 'Perempuan', 'Gladi Satya', '081320010009', 'Jl. Rajawali No.9',       '');
 
 -- ---------------------------------------------------------------------
 --  3. PENDAFTARAN UJIAN — 12 bulan spre motors
@@ -98,19 +98,19 @@ INSERT INTO pelatih (no_kta, nama_pelatih, tingkatan_sabuk, kontak, alamat, path
 --     Jangan mengarang nilai lain (mis. 'Daruna' atau 'Garuda'):
 --     nilai itu tidak akan pernah muncul dari form tambah ujian.
 -- ---------------------------------------------------------------------
-INSERT INTO pendaftaran_ujian (tingkat_ujian, tgl_buka, tgl_tutup, tgl_ujian, status) VALUES
-('Prapta ke Kawi',               DATE_SUB(CURDATE(), INTERVAL 11 MONTH), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 11 MONTH), INTERVAL 21 DAY), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 11 MONTH), INTERVAL 21 DAY), 'ditutup'),
-('Prapta ke Kawi',               DATE_SUB(CURDATE(), INTERVAL 10 MONTH), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 10 MONTH), INTERVAL 21 DAY), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 10 MONTH), INTERVAL 21 DAY), 'ditutup'),
-('Kawi ke Gladi Gatra',          DATE_SUB(CURDATE(), INTERVAL 9 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 9 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 9 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Kawi ke Gladi Gatra',          DATE_SUB(CURDATE(), INTERVAL 8 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 8 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 8 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Gatra ke Gladi Taruna',  DATE_SUB(CURDATE(), INTERVAL 7 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Gatra ke Gladi Taruna',  DATE_SUB(CURDATE(), INTERVAL 6 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Taruna ke Gladi Satya',  DATE_SUB(CURDATE(), INTERVAL 5 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Taruna ke Gladi Satya',  DATE_SUB(CURDATE(), INTERVAL 4 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 3 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 2 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), INTERVAL 21 DAY),  'ditutup'),
-('Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 70 DAY),   DATE_ADD(CURDATE(), INTERVAL 14 DAY),                          DATE_SUB(CURDATE(), INTERVAL 10 DAY),                          'ditutup'),
-('Gladi Taruna ke Gladi Satya',  DATE_SUB(CURDATE(), INTERVAL 60 DAY),   DATE_ADD(CURDATE(), INTERVAL 10 DAY),                          DATE_SUB(CURDATE(), INTERVAL 3 DAY),                           'dibuka');
+INSERT INTO pendaftaran_ujian (nama_ujian, tingkat_ujian, tgl_buka, tgl_tutup, tgl_ujian, status) VALUES
+('Ujian Kenaikan Sabuk 1',  'Prapta ke Kawi',               DATE_SUB(CURDATE(), INTERVAL 11 MONTH), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 11 MONTH), INTERVAL 21 DAY), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 11 MONTH), INTERVAL 21 DAY), 'ditutup'),
+('Ujian Kenaikan Sabuk 2',  'Prapta ke Kawi',               DATE_SUB(CURDATE(), INTERVAL 10 MONTH), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 10 MONTH), INTERVAL 21 DAY), DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 10 MONTH), INTERVAL 21 DAY), 'ditutup'),
+('Ujian Kenaikan Sabuk 3',  'Kawi ke Gladi Gatra',          DATE_SUB(CURDATE(), INTERVAL 9 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 9 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 9 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 4',  'Kawi ke Gladi Gatra',          DATE_SUB(CURDATE(), INTERVAL 8 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 8 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 8 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 5',  'Gladi Gatra ke Gladi Taruna',  DATE_SUB(CURDATE(), INTERVAL 7 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 6',  'Gladi Gatra ke Gladi Taruna',  DATE_SUB(CURDATE(), INTERVAL 6 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 7',  'Gladi Taruna ke Gladi Satya',  DATE_SUB(CURDATE(), INTERVAL 5 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 8',  'Gladi Taruna ke Gladi Satya',  DATE_SUB(CURDATE(), INTERVAL 4 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 9',  'Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 3 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 10', 'Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 2 MONTH),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), INTERVAL 21 DAY),  DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), INTERVAL 21 DAY),  'ditutup'),
+('Ujian Kenaikan Sabuk 11', 'Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 70 DAY),   DATE_ADD(CURDATE(), INTERVAL 14 DAY),                          DATE_SUB(CURDATE(), INTERVAL 10 DAY),                          'ditutup'),
+('Ujian Kenaikan Sabuk 12', 'Gladi Satya ke Wira Tama',     DATE_SUB(CURDATE(), INTERVAL 60 DAY),   DATE_ADD(CURDATE(), INTERVAL 10 DAY),                          DATE_SUB(CURDATE(), INTERVAL 3 DAY),                           'dibuka');
 
 -- ID 4 ujian terbaru yang dipakai untuk peserta
 SET @u1 := @u_akhir + 9;
@@ -160,7 +160,7 @@ WHERE dp.id_pendaftaran IN (@u1, @u2, @u3, @u4)
 -- ---------------------------------------------------------------------
 INSERT INTO pengesahan (id_hasil, file_pdf, status, tgl_kirim, tgl_diterima, tgl_disetujui, id_user_pusat, catatan)
 SELECT h.id_hasil,
-       'contoh.pdf',
+       'uploads/pdf/contoh.pdf',
        CASE MOD(h.id_hasil, 4)
            WHEN 0 THEN 'dikirim'
            WHEN 1 THEN 'disetujui'

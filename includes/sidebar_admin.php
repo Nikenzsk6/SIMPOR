@@ -2,7 +2,8 @@
 include_once dirname(__DIR__) . '/includes/session.php';
 include_once dirname(__DIR__) . '/includes/funtion.php';
 if ($role != 'admin') {
-    header('Location: ' . BASE_URL . 'login.php');
+    set_flash('Akses ditolak. Anda tidak memiliki hak akses ke halaman tersebut.', 'danger');
+    header('Location: ' . BASE_URL . ($role === 'pusat' ? 'pusat/dashboard.php' : 'login.php'));
     exit;
 }
 $menu_path = $_SERVER['PHP_SELF'];
@@ -23,7 +24,7 @@ $menu_path = $_SERVER['PHP_SELF'];
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-merah shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="<?= BASE_URL ?>pusat/dashboard.php">
+            <a class="navbar-brand fw-bold" href="<?= BASE_URL ?>admin/dashboard.php">
                 <img src="<?= BASE_URL ?>assets/img/logo.png" alt="SIM PORSIGAL" height="30" class="me-2"> SIM PORSIGAL - CABANG
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -36,7 +37,7 @@ $menu_path = $_SERVER['PHP_SELF'];
                             <i class="bi bi-person-circle"></i> <?= htmlspecialchars($data_user['nama_user']) ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?= BASE_URL ?>logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>

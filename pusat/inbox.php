@@ -2,15 +2,18 @@
 include_once '../includes/sidebar_pusat.php'; ?>
 <?php
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'semua';
+$diizinkan = ['dikirim', 'diterima_pusat', 'disetujui', 'ditolak'];
 
-$where = '';
-if ($filter == 'dikirim') $where = "WHERE ps.status='dikirim'";
-elseif ($filter == 'diterima_pusat') $where = "WHERE ps.status='diterima_pusat'";
-elseif ($filter == 'disetujui') $where = "WHERE ps.status='disetujui'";
-elseif ($filter == 'ditolak') $where = "WHERE ps.status='ditolak'";
+$having = '';
+if (in_array($filter, $diizinkan, true)) {
+    $having = "HAVING MIN(ps.status)='$filter'";
+}
 
 $q = mysqli_query($koneksi, "
-    SELECT ps.*, pu.tingkat_ujian,
+    SELECT pu.id_pendaftaran, pu.nama_ujian, pu.tingkat_ujian,
+        MIN(ps.id_pengesahan) AS id_pengesahan,
+        MIN(ps.status) AS status,
+        MAX(ps.tgl_kirim) AS tgl_kirim,
         (SELECT COUNT(*) FROM hasil_ujian h2
          JOIN detail_pendaftaran dp2 ON h2.id_detail=dp2.id_detail
          WHERE dp2.id_pendaftaran=pu.id_pendaftaran AND h2.status_kelulusan='LULUS') as jml_lulus
@@ -18,13 +21,20 @@ $q = mysqli_query($koneksi, "
     JOIN hasil_ujian h ON ps.id_hasil = h.id_hasil
     JOIN detail_pendaftaran dp ON h.id_detail = dp.id_detail
     JOIN pendaftaran_ujian pu ON dp.id_pendaftaran = pu.id_pendaftaran
-    $where
-    ORDER BY ps.tgl_kirim DESC
+    GROUP BY pu.id_pendaftaran, pu.nama_ujian, pu.tingkat_ujian
+    $having
+    ORDER BY MAX(ps.tgl_kirim) DESC
 ");
 $total = $q ? mysqli_num_rows($q) : 0;
 
-$q_badge = mysqli_query($koneksi, "SELECT COUNT(*) as j FROM pengesahan WHERE status='dikirim'");
-$j_badge = (int)mysqli_fetch_assoc($q_badge)['j'];
+$q_badge = mysqli_query($koneksi, "
+    SELECT COUNT(DISTINCT dp.id_pendaftaran) as j
+    FROM pengesahan ps
+    JOIN hasil_ujian h ON ps.id_hasil = h.id_hasil
+    JOIN detail_pendaftaran dp ON h.id_detail = dp.id_detail
+    WHERE ps.status='dikirim'
+");
+$j_badge = (int) mysqli_fetch_assoc($q_badge)['j'];
 
 $cabang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM profil WHERE tipe='cabang'"));
 $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
@@ -83,8 +93,8 @@ $nama_cabang = htmlspecialchars($cabang['nama_organisasi'] ?? 'Cabang');
                                 <strong><?= $nama_cabang ?></strong>
                                 <small class="text-muted"><?= tgl_indonesia_detik($d['tgl_kirim']) ?></small>
                             </div>
-                            <div class="text-body">Pengesahan Ujian <?= htmlspecialchars($d['tingkat_ujian']) ?></div>
-                            <small class="text-muted"><?= $d['jml_lulus'] ?> peserta lulus</small>
+                            <div class="text-body">Pengesahan Ujian <?= htmlspecialchars($d['nama_ujian'] ?: $d['tingkat_ujian']) ?></div>
+                            <small class="text-muted"><?= (int) $d['jml_lulus'] ?> peserta lulus</small>
                         </div>
                         <div class="col-auto"><?= status_label($d['status']) ?></div>
                     </div>

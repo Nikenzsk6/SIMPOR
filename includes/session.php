@@ -19,6 +19,10 @@ if (!headers_sent()) {
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: SAMEORIGIN');
     header('Referrer-Policy: same-origin');
+    // Cegah halaman terproteksi tampil dari cache saat tombol Back ditekan
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    header('Expires: 0');
 }
 
 if (!isset($_SESSION['id_user'])) {

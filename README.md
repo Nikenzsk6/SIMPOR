@@ -6,8 +6,6 @@ pelaksanaan ujian kenaikan tingkat, penilaian, pengesahan, sampai cetak laporan.
 Aplikasi web PHP + MySQL dengan dua peran pengguna: **Admin Cabang** dan
 **Admin Pusat**.
 
-![Dashboard Admin](docs/img/02-dashboard.png)
-
 ---
 
 ## Fitur
@@ -31,14 +29,6 @@ Aplikasi web PHP + MySQL dengan dua peran pengguna: **Admin Cabang** dan
 - Inbox pengesahan — meninjau, menyetujui, atau menolak hasil ujian.
 - Profil Pusat dan Kelola User.
 
-| Data Anggota | Penilaian |
-|---|---|
-| ![Anggota](docs/img/03-anggota.png) | ![Penilaian](docs/img/05-penilaian.png) |
-
-| Data Ujian | Laporan |
-|---|---|
-| ![Ujian](docs/img/04-ujian.png) | ![Laporan](docs/img/06-laporan.png) |
-
 ---
 
 ## Teknologi
@@ -50,6 +40,11 @@ Aplikasi web PHP + MySQL dengan dua peran pengguna: **Admin Cabang** dan
 - **PhpSpreadsheet** untuk impor/ekspor Excel
 - **Dompdf** untuk cetak laporan PDF
 - Tanpa framework — sengaja dijaga sederhana agar mudah dipelajari
+
+> **Penting:** ekstensi PHP **`zip`** harus aktif karena dipakai PhpSpreadsheet
+> untuk membaca file `.xlsx`. Jika menu Penilaian menampilkan pesan
+> `Class "ZipArchive" not found`, aktifkan `extension=zip` pada `php.ini`
+> lalu restart Apache.
 
 ---
 
@@ -142,7 +137,7 @@ bagaimana memeriksanya.
 
 ## Catatan
 
-- Data pada screenshot dan `docs/seed-contoh.sql` adalah **data sintetis**
-  untuk keperluan demo, bukan data anggota sungguhan.
-- Repositori ini berisi kode saja. Database dan berkas unggahan pengguna tidak
-  disertakan.
+- Data pada `docs/seed-contoh.sql` adalah **data sintetis** untuk keperluan
+  demo, bukan data anggota sungguhan.
+- Repositori ini berisi kode saja. Database, berkas unggahan pengguna, dan
+  dokumen RTM internal tidak disertakan.

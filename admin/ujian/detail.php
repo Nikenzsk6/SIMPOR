@@ -15,21 +15,21 @@ if ($ujian['status'] == 'dibuka' && $ujian['tgl_tutup'] < date('Y-m-d')) {
 
 $is_open = ($ujian['status'] == 'dibuka');
 
-if (isset($_POST['tambah_penguji']) && $is_open) {
+if (isset($_POST['tambah_penguji'])) {
     $id_pelatih = (int)$_POST['id_pelatih'];
     mysqli_query($koneksi, "INSERT IGNORE INTO penguji_ujian (id_pendaftaran, id_pelatih) VALUES ($id, $id_pelatih)");
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
-if (isset($_GET['hapus_penguji']) && $is_open) {
+if (isset($_GET['hapus_penguji'])) {
     $id_pelatih = (int)$_GET['hapus_penguji'];
     mysqli_query($koneksi, "DELETE FROM penguji_ujian WHERE id_pendaftaran=$id AND id_pelatih=$id_pelatih");
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
-if (isset($_POST['tambah_peserta']) && $is_open) {
+if (isset($_POST['tambah_peserta'])) {
     $id_anggota = (int)$_POST['id_anggota'];
     $cek = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as jml FROM detail_pendaftaran WHERE id_pendaftaran=$id AND id_anggota=$id_anggota"));
     if ($cek['jml'] == 0) {
@@ -39,14 +39,14 @@ if (isset($_POST['tambah_peserta']) && $is_open) {
     exit;
 }
 
-if (isset($_GET['hapus_peserta']) && $is_open) {
+if (isset($_GET['hapus_peserta'])) {
     $id_detail = (int)$_GET['hapus_peserta'];
     mysqli_query($koneksi, "DELETE FROM detail_pendaftaran WHERE id_detail=$id_detail AND id_pendaftaran=$id");
     header('Location: detail.php?id=' . $id);
     exit;
 }
 
-if (isset($_GET['bayar']) && $is_open) {
+if (isset($_GET['bayar'])) {
     $id_detail = (int)$_GET['bayar'];
     $dp = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT status_pembayaran FROM detail_pendaftaran WHERE id_detail=$id_detail AND id_pendaftaran=$id"));
     $new_status = ($dp['status_pembayaran'] == 'lunas') ? 'belum' : 'lunas';
@@ -59,7 +59,11 @@ if (isset($_GET['bayar']) && $is_open) {
 
 <div class="content-wrapper p-3 mb-3">
     <div class="row g-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <small class="text-muted">Nama Ujian</small>
+            <div class="fw-bold"><?= htmlspecialchars($ujian['nama_ujian'] ?: $ujian['tingkat_ujian']) ?></div>
+        </div>
+        <div class="col-md-3">
             <small class="text-muted">Tingkat Ujian</small>
             <div class="fw-bold"><?= htmlspecialchars($ujian['tingkat_ujian']) ?></div>
         </div>
@@ -75,7 +79,9 @@ if (isset($_GET['bayar']) && $is_open) {
             <small class="text-muted">Tgl Tutup</small>
             <div><?= tgl_indonesia($ujian['tgl_tutup']) ?></div>
         </div>
-        <div class="col-md-2">
+    </div>
+    <div class="row g-2 mt-1">
+        <div class="col-md-3">
             <small class="text-muted">Tgl Ujian</small>
             <div><?= tgl_indonesia($ujian['tgl_ujian']) ?></div>
         </div>
@@ -86,7 +92,7 @@ if (isset($_GET['bayar']) && $is_open) {
     <div class="col-md-5">
         <div class="content-wrapper p-3 mb-3">
             <h6 class="fw-bold mb-2"><i class="bi bi-people"></i> Penguji</h6>
-            <?php if ($is_open): ?>
+            <?php if (true): ?>
                 <form method="post" id="formPenguji">
                     <input type="hidden" name="id_pelatih" id="id_pelatih">
                     <input type="text" class="form-control form-control-sm mb-1" id="searchPenguji" placeholder="Cari penguji..." autocomplete="off">
@@ -104,7 +110,7 @@ if (isset($_GET['bayar']) && $is_open) {
         <thead>
             <tr>
                 <th>Nama</th>
-                <th>Sabuk</th><?php if ($is_open): ?><th>Aksi</th><?php endif; ?>
+                <th>Sabuk</th><?php if (true): ?><th>Aksi</th><?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +125,7 @@ if (isset($_GET['bayar']) && $is_open) {
                         <tr>
                             <td><?= htmlspecialchars($p['nama_pelatih']) ?></td>
                             <td><?= htmlspecialchars($p['tingkatan_sabuk']) ?></td>
-                            <?php if ($is_open): ?>
+                            <?php if (true): ?>
                                 <td class="text-center">
                                     <a href="?id=<?= $id ?>&hapus_penguji=<?= $p['id_pelatih'] ?>" class="btn btn-sm btn-danger py-0 px-1" onclick="return confirm('Yakin?')"><i class="bi bi-x"></i></a>
                                 </td>
@@ -133,7 +139,7 @@ if (isset($_GET['bayar']) && $is_open) {
     <div class="col-md-7">
         <div class="content-wrapper p-3 mb-3">
             <h6 class="fw-bold mb-2"><i class="bi bi-person-badge"></i> Peserta</h6>
-            <?php if ($is_open): ?>
+            <?php if (true): ?>
                 <form method="post" id="formPeserta">
                     <input type="hidden" name="id_anggota" id="id_anggota">
                     <input type="text" class="form-control form-control-sm mb-1" id="searchPeserta" placeholder="Cari peserta..." autocomplete="off">
@@ -154,7 +160,7 @@ if (isset($_GET['bayar']) && $is_open) {
                         <th>No KTA</th>
                         <th>Nama</th>
                         <th>Sabuk</th>
-                        <th>Pembayaran</th><?php if ($is_open): ?><th>Aksi</th><?php endif; ?>
+                        <th>Pembayaran</th><?php if (true): ?><th>Aksi</th><?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -175,13 +181,13 @@ if (isset($_GET['bayar']) && $is_open) {
                             <td><?= htmlspecialchars($ps['nama_anggota']) ?></td>
                             <td><?= htmlspecialchars($ps['tingkatan_sabuk']) ?></td>
                             <td>
-                                <?php if ($is_open): ?>
+                                <?php if (true): ?>
                                     <a href="?id=<?= $id ?>&bayar=<?= $ps['id_detail'] ?>" class="text-decoration-none"><?= status_label($ps['status_pembayaran']) ?></a>
                                 <?php else: ?>
                                     <?= status_label($ps['status_pembayaran']) ?>
                                 <?php endif; ?>
                             </td>
-                            <?php if ($is_open): ?>
+                            <?php if (true): ?>
                                 <td class="text-center">
                                     <a href="?id=<?= $id ?>&hapus_peserta=<?= $ps['id_detail'] ?>" class="btn btn-sm btn-danger py-0 px-1" onclick="return confirm('Yakin?')"><i class="bi bi-trash"></i></a>
                                 </td>
@@ -194,7 +200,7 @@ if (isset($_GET['bayar']) && $is_open) {
     </div>
 </div>
 
-<?php if (!$is_open): ?>
+<?php if (true): ?>
     <div class="content-wrapper p-3">
         <h6 class="fw-bold mb-2"><i class="bi bi-file-earmark-excel"></i> Download Template Penilaian</h6>
         <div class="d-flex gap-2 flex-wrap">
@@ -323,7 +329,9 @@ if (isset($_GET['bayar']) && $is_open) {
         document.getElementById('btnTambahPeserta').disabled = true;
     }
 
-    document.getElementById('searchPenguji').addEventListener('input', filterPelatih);
-    document.getElementById('searchPeserta').addEventListener('input', filterPeserta);
+    var elPenguji = document.getElementById('searchPenguji');
+    var elPeserta = document.getElementById('searchPeserta');
+    if (elPenguji) elPenguji.addEventListener('input', filterPelatih);
+    if (elPeserta) elPeserta.addEventListener('input', filterPeserta);
 </script>
 <?php include_once '../../includes/footer.php'; ?>

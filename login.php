@@ -12,6 +12,11 @@ session_set_cookie_params([
 ]);
 session_start();
 
+// Jangan simpan halaman login di cache (mencegah tombol Back setelah logout)
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
+
 // --- Batas percobaan login (dasar, mencegah tebak password beruntun) ---
 const LOGIN_MAX_ATTEMPTS = 5;
 const LOGIN_LOCK_SECONDS = 60;
@@ -27,14 +32,23 @@ if ($_POST) {
     $username = trim($_POST['username'] ?? '');
     $plain    = $_POST['password'] ?? '';
 
+    // --- Validasi format sesuai RTM (Login Cabang & Pusat) ---
     if ($_SESSION['login_lock_until'] > time()) {
         $sisa  = $_SESSION['login_lock_until'] - time();
         $error = 'Terlalu banyak percobaan. Coba lagi dalam ' . $sisa . ' detik.';
-    } elseif ($username === '' || $plain === '') {
-        $error = 'Username dan password wajib diisi!';
+    } elseif ($username === '') {
+        $error = 'Username wajib diisi!';
+    } elseif (preg_match('/[^A-Za-z0-9]/', $username)) {
+        $error = 'Username tidak boleh menggunakan karakter khusus atau spasi!';
+    } elseif (ctype_digit($username)) {
+        $error = 'Username tidak boleh hanya berupa angka!';
+    } elseif ($plain === '') {
+        $error = 'Password wajib diisi!';
+    } elseif (strlen($plain) < 8) {
+        $error = 'Password minimal 8 karakter!';
     } else {
         // Prepared statement: username tidak pernah disisipkan langsung ke query
-        $stmt = mysqli_prepare($koneksi, "SELECT id_user, role, password FROM user WHERE username = ? LIMIT 1");
+        $stmt = mysqli_prepare($koneksi, "SELECT id_user, role, password, status FROM user WHERE username = ? LIMIT 1");
         mysqli_stmt_bind_param($stmt, 's', $username);
         mysqli_stmt_execute($stmt);
         $hasil = mysqli_stmt_get_result($stmt);
@@ -47,7 +61,9 @@ if ($_POST) {
             list($valid, $perlu_rehash) = verify_password($plain, $d['password']);
         }
 
-        if ($valid) {
+        if ($valid && ($d['status'] ?? 'aktif') !== 'aktif') {
+            $error = 'Akun Anda tidak aktif. Silakan hubungi administrator.';
+        } elseif ($valid) {
             // Login berhasil: bersihkan penghitung, ganti ID sesi
             // (mencegah session fixation), lalu simpan identitas.
             unset($_SESSION['login_attempts'], $_SESSION['login_lock_until']);
